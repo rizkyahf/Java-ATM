@@ -113,9 +113,21 @@ public class ATM {
                 currentTransaction = createTransaction(mainMenuSelection);
                 currentTransaction.execute(); // execute transaction
                 break;
+            case TOPUP:
+                
+                break;
+            case PAYMENT:
+                
+                break;
+            case CHANGECURRENCY:
+                
+                break;
             case ACTIVITY:
                 currentTransaction = createTransaction(mainMenuSelection);
                 currentTransaction.execute(); // execute transaction
+                break;
+            case CHANGEPIN:
+                
                 break;
             // end add
             case EXIT: // user chose to terminate session
