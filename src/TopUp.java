@@ -82,7 +82,13 @@ public class TopUp extends Transaction {
          screen.displayMessage("\nChoose adestination: ");
       }
       int input = keypad.getInput(); // receive input of deposit amount
-      
+      switch(input){
+          case 1: //akun e-toll
+          case 2: // akun dana
+          case 3: // akun ovo
+          case 4: // akun shopee
+          case 5:
+      }
       if (input == CANCELED) {
         screen.displayMessageLine(
            "\nCanceling transaction...");
