@@ -8,6 +8,7 @@ public class Account {
    private double totalBalance; // funds available & pending deposits
    // myadd new
    private LinkedHashSet<AccountLog> accountLogs = new LinkedHashSet<>();
+   private boolean Status;
    // end add
 
    // Account constructor initializes attributes
@@ -23,6 +24,7 @@ public class Account {
       // myadd new
       AccountLog temp = new AccountLog(true, theTotalBalance, theTotalBalance);
       accountLogs.add(temp);
+      Status = true;
       // end myadd
    }
 
@@ -76,6 +78,14 @@ public class Account {
    // myadd new
    public LinkedHashSet<AccountLog> getAccountLog(){
        return accountLogs;
+   }
+   
+   public void setStatus(boolean Stat){
+       this.Status = Stat;
+   }
+   
+   public boolean getStatus(){
+       return Status;
    }
    // end add
    
