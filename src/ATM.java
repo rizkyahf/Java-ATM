@@ -113,6 +113,10 @@ public class ATM {
                 currentTransaction = createTransaction(mainMenuSelection);
                 currentTransaction.execute(); // execute transaction
                 break;
+            case ACTIVITY:
+                currentTransaction = createTransaction(mainMenuSelection);
+                currentTransaction.execute(); // execute transaction
+                break;
             // end add
             case EXIT: // user chose to terminate session
                screen.displayMessageLine("\nExiting the system...");
@@ -168,8 +172,11 @@ public class ATM {
          case PAYMENT:
              
              break;
-         case ACTIVITY:
+         case CHANGECURRENCY:
              
+             break;
+         case ACTIVITY:
+             temp = new Activity(currentAccountNumber, screen, bankDatabase);
              break;
          case CHANGEPIN:
              
@@ -179,7 +186,6 @@ public class ATM {
             screen.displayMessageLine(
                   "\nYou did not enter a valid selection. Try again.");
             break;
-            
          // end add
       }
 

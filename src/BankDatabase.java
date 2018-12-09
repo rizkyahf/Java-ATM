@@ -1,10 +1,24 @@
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+
 public class BankDatabase {
    private Account[] accounts; // array of Accounts
+   // myadd new
+//   private Map<>
+   // end myadd
    
    public BankDatabase() {
       accounts = new Account[2]; // just 2 accounts for testing
       accounts[0] = new Account(1234, 4321, 1000.0, 1200.0);
       accounts[1] = new Account(8765, 5678, 200.0, 200.0);  
+      
+      // myadd new
+      
+      // end add
    }
    
 //   private Account getAccount(int accountNumber) {
@@ -17,6 +31,11 @@ public class BankDatabase {
        
       return null; // if no matching account was found, return null
    } 
+   
+   public LinkedHashSet<AccountLog> getAccountLog(int userAccountNumber){
+       Account userAccount = getAccount(userAccountNumber);
+       return userAccount.getAccountLog();
+   }
 
    public boolean authenticateUser(int userAccountNumber, int userPIN) {
       // attempt to retrieve the account with the account number
