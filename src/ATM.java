@@ -55,27 +55,40 @@ public class ATM {
    }
 
    // attempts to authenticate user against database
-   private void authenticateUser() {
-      screen.displayMessage("\nPlease enter your account number: ");
-      int accountNumber = keypad.getInput(); // input account number
-      screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
-//      char[] pw = System.console().readPassword();
-//      Arrays.fill(pw, '*');
-//      int pin = Integer.parseInt(pw); // input PIN
-      int pin = keypad.getInput(); // input PIN
-      
-      // set userAuthenticated to boolean value returned by database
-      userAuthenticated = bankDatabase.authenticateUser(accountNumber, pin);
-      
-      // check whether authentication succeeded
-      if (userAuthenticated) {
-         currentAccountNumber = accountNumber; // save user's account #
-      } 
-      else {
-         screen.displayMessageLine(
-            "Invalid account number or PIN. Please try again.");
-      } 
-   } 
+    private void authenticateUser() {
+        int i = 0;
+        screen.displayMessage("\nPlease enter your account number: ");
+        int accountNumber = keypad.getInput(); // input account number
+        while (i < 3){
+            screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
+      //      char[] pw = System.console().readPassword();
+      //      Arrays.fill(pw, '*');
+      //      int pin = Integer.parseInt(pw); // input PIN
+            int pin = keypad.getInput(); // input PIN
+
+            // set userAuthenticated to boolean value returned by database
+            userAuthenticated = bankDatabase.authenticateUser(accountNumber, pin);
+
+            // check whether authentication succeeded
+            if (bankDatabase.cekstatus(accountNumber) == true){
+                if (userAuthenticated) {
+                    currentAccountNumber = accountNumber; // save user's account #
+                    i = 4;
+                } else {
+                    screen.displayMessageLine("Invalid account number or PIN. Please try again.");
+                    i++;
+                }
+            } else {
+                i = 4;
+                screen.displayMessage("Akun di BLOKIR");
+                userAuthenticated = false;
+            }
+        }
+        if (i == 3) {
+            bankDatabase.Blokir(accountNumber, false);
+            screen.displayMessage("AKUN ANDA DIBLOKIR KARENA MEMASUKAN KESALAHAN PIN SELAMA 3 KALI");
+        }
+    } 
 
    // display the main menu and perform transactions
    private void performTransactions() {
