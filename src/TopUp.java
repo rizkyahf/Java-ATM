@@ -9,7 +9,7 @@
  * @author Velia Sagita - 171511065
  */
 public class TopUp extends Transaction {
-       private double amount; // amount to transfer
+   private double amount; // amount to transfer
    private Keypad keypad; // reference to keypad
    private DepositSlot depositSlot; // reference to deposit slot
    private final static int CANCELED = 0; // constant for cancel option
@@ -78,7 +78,7 @@ public class TopUp extends Transaction {
 
       int input = keypad.getInput(); // receive input of deposit amount
       switch(input){
-          case 1: //akun e-toll
+          case 1: topupETol(); break;
           case 2: // akun dana
           case 3: // akun ovo
           case 4: screen.displayMessageLine("lom jalan"); break;// akun shopee
@@ -136,4 +136,55 @@ public class TopUp extends Transaction {
             } else screen.displayMessage("\nAccount not registered\n");
         } else screen.displayMessageLine("\nNot Enough Saldo\n");  
    }
+   
+   private double promptAmountETol(){
+       Screen screen = getScreen();
+       String kode;
+       int jumlah;
+       String Kode_1 = "123456789";
+       String Kode_2 = "234567891";
+       String Kode_3 = "345678912";
+       
+       screen.displayMessage("Masukan kode token (9 Karakter) : ");
+       kode = keypad.getLine();
+       jumlah = kode.length();
+       if (jumlah == 9){
+           if (Kode_1.compareTo(kode) == 0){
+               return 100.0;
+           } else if (Kode_2.compareTo(kode) == 0){
+               return 200.0;
+           } else if (Kode_3.compareTo(kode) == 0){
+               return 300.0;
+           } else screen.displayMessage("Kode token salah! Topup dibatalkan!");
+       } else screen.displayMessage("Kode token salah! Topup dibatalkan!");
+       
+       return -1;
+   }
+   
+    private void topupETol(){
+        Screen screen = getScreen();
+        BankDatabase atmBankDatabase = super.getBankDatabase();
+        amount = promptAmountETol();
+        int agree, input;
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+
+        if (amount != -1){
+            if(amount <= Balance){
+                screen.displayMessage("\nInput ETol user account : ");
+                input = keypad.getInput();
+                System.out.println(super.getAccountNumber());
+                accountAuthenticatide = atmBankDatabase.userauthentication(input);
+                if (accountAuthenticatide == true){
+                    screen.displayMessage("\nBerikut adalah nominal topup : " +amount);
+                    screen.displayMessage("\nKetik 1 untuk menyetujui transaksi. \nMasukan anda : ");
+                    agree = keypad.getInput();
+                    if (agree == 1){
+                         atmBankDatabase.debit(input, amount);
+                         atmBankDatabase.credit(super.getAccountNumber(), amount);
+                         screen.displayMessage("\nTopUp Sukses!");
+                    } else screen.displayMessage("\nTopUp dibatalkan!");
+                } else screen.displayMessage("\nAccount tidak ter-registrasi!");
+            } else screen.displayMessage("\nSaldo anda tidak cukup!");           
+        }
+    }
 }
