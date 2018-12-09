@@ -9,5 +9,9 @@ public class Keypad {
 
    public int getInput() {
       return input.nextInt(); // user enters an integer
-   } 
+   }
+   
+   public String getLine(){
+      return input.next(); // user enters an String
+   }
 } 
