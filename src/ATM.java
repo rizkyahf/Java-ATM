@@ -114,7 +114,8 @@ public class ATM {
                 currentTransaction.execute(); // execute transaction
                 break;
             case TOPUP:
-                
+                currentTransaction = createTransaction(mainMenuSelection);
+                currentTransaction.execute();
                 break;
             case PAYMENT:
                 
@@ -179,7 +180,7 @@ public class ATM {
             temp = new Transfer(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, cashDispenser);
             break;
          case TOPUP:
-             
+             temp = new TopUp(currentAccountNumber, screen, bankDatabase, keypad, depositSlot,  cashDispenser);
              break;
          case PAYMENT:
              

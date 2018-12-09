@@ -41,6 +41,16 @@ public class TopUp extends Transaction {
        Screen screen = getScreen();
        double availableBalance;
        
+         screen.displayMessage("\nDestination Menu: \n");
+         screen.displayMessageLine("1 - E-Toll");
+         screen.displayMessageLine("2 - Dana");
+         screen.displayMessageLine("3 - OVO");
+         screen.displayMessageLine("4 - Shopee");
+         screen.displayMessageLine("5 - Tokopedia");
+         screen.displayMessageLine("6 - Bukalapak");
+         screen.displayMessageLine("0 - Cancel transaction");
+         screen.displayMessage("\nChoose adestination: ");
+       
        destinationNo = promptForDestinationAccount();
        if(destinationNo != CANCELED){
            destAccount = bankDatabase.getAccount(destinationNo);
@@ -69,24 +79,12 @@ public class TopUp extends Transaction {
       int userChoice = 0; // local variable to store return value
       Screen screen = getScreen(); // get reference to screen
 
-      
-      while (userChoice ==0){
-         screen.displayMessage("\nDestination Menu: ");
-         screen.displayMessageLine("1 - E-Toll");
-         screen.displayMessageLine("2 - Dana");
-         screen.displayMessageLine("3 - OVO");
-         screen.displayMessageLine("4 - Shopee");
-         screen.displayMessageLine("5 - Tokopedia");
-         screen.displayMessageLine("6 - Bukalapak");
-         screen.displayMessageLine("0 - Cancel transaction");
-         screen.displayMessage("\nChoose adestination: ");
-      }
       int input = keypad.getInput(); // receive input of deposit amount
       switch(input){
           case 1: //akun e-toll
           case 2: // akun dana
           case 3: // akun ovo
-          case 4: // akun shopee
+          case 4: screen.displayMessageLine("lom jalan"); break;// akun shopee
           case 5:
       }
       if (input == CANCELED) {
