@@ -12,9 +12,12 @@ public class BankDatabase {
    // end myadd
    
    public BankDatabase() {
-      accounts = new Account[2]; // just 2 accounts for testing
+      accounts = new Account[4]; // just 2 accounts for testing
       accounts[0] = new Account(1234, 4321, 1000.0, 1200.0);
-      accounts[1] = new Account(8765, 5678, 200.0, 200.0);  
+      accounts[1] = new Account(8765, 5678, 200.0, 200.0);
+      //Akun buat tokopedia
+      accounts[2] = new Account(39028765, 1234, 0, 0);
+      accounts[3] = new Account(39021234, 1234, 0, 0);
       
       // myadd new
       
@@ -65,4 +68,8 @@ public class BankDatabase {
    public void debit(int userAccountNumber, double amount) {
       getAccount(userAccountNumber).debit(amount);
    } 
+   boolean userauthentication(int accountNumber) {
+        Account userAccount = getAccount(accountNumber);
+        return userAccount != null;
+    }
 } 

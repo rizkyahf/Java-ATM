@@ -18,6 +18,7 @@ public class TopUp extends Transaction {
    private Account destAccount;
    private BankDatabase bankDatabase; // account information database
    private CashDispenser cashDispenser; // reference to cash dispenser
+   private boolean accountAuthenticatide;
 
    public TopUp(int userAccountNumber, Screen atmScreen, 
       BankDatabase atmBankDatabase, Keypad atmKeypad, 
@@ -68,10 +69,6 @@ public class TopUp extends Transaction {
                    }
                }
            }
-           else{
-               screen.displayMessageLine(
-                  "\nAccount destination invalid...");
-           }
        }
    }
 
@@ -85,7 +82,7 @@ public class TopUp extends Transaction {
           case 2: // akun dana
           case 3: // akun ovo
           case 4: screen.displayMessageLine("lom jalan"); break;// akun shopee
-          case 5:
+          case 5: topupTokped(); break;
       }
       if (input == CANCELED) {
         screen.displayMessageLine(
@@ -112,5 +109,31 @@ public class TopUp extends Transaction {
       else {
          return (double) input / 100; // return dollar amount
       }
+   }
+   private void topupTokped(){
+     
+     Screen screen = getScreen();       
+        BankDatabase atmBankDatabase = super.getBankDatabase();
+        amount = promptForAmount();
+        int agree;
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        
+        if(amount <= Balance){
+            screen.displayMessage("\n Input receiver account with code 3902 + acc number: ");
+
+            int Receiver_Account = keypad.getInput();
+            accountAuthenticatide = atmBankDatabase.userauthentication(super.getAccountNumber());
+            if(accountAuthenticatide = true){
+                screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
+                agree = keypad.getInput();
+                if (agree == 1){
+                atmBankDatabase.debit(Receiver_Account, amount);
+                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
+                } else { screen.displayMessage ("Transaksi Di batalkan\n");
+                }
+                          
+            } else screen.displayMessage("\nAccount not registered\n");
+        } else screen.displayMessageLine("\nNot Enough Saldo\n");  
    }
 }
