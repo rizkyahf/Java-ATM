@@ -86,4 +86,8 @@ public class BankDatabase {
        
        user.setStatus(Status);
    }
+   
+   public void ChangePin(int userAccountNumber, int newPin) {
+       getAccount(userAccountNumber).setPin(newPin);
+    } 
 } 

@@ -141,8 +141,9 @@ public class ATM {
                 currentTransaction.execute(); // execute transaction
                 break;
             case CHANGEPIN:
-                
-                break;
+                currentTransaction = createTransaction(mainMenuSelection);
+                currentTransaction.execute();   // execute transaction
+                screen.displayMessageLine("\nPlease re login");
             // end add
             case EXIT: // user chose to terminate session
                screen.displayMessageLine("\nExiting the system...");
@@ -205,8 +206,8 @@ public class ATM {
              temp = new Activity(currentAccountNumber, screen, bankDatabase);
              break;
          case CHANGEPIN:
-             
-             break;
+             temp = new changePin(currentAccountNumber, screen, bankDatabase, keypad);
+            break;
           //end add
          default:
             screen.displayMessageLine(

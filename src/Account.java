@@ -88,5 +88,9 @@ public class Account {
        return Status;
    }
    // end add
-   
+
+    public void setPin(int pin) {
+        this.pin = pin;
+    }
+
 } 
