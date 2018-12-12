@@ -15,7 +15,7 @@ public class Payment extends Transaction{
         private int amount;
         private Keypad keypad;
         private DepositSlot depositSlot;
-        private final static int CANCELED = 0;
+        private final static int CANCELED = 6;
         private int destinationNo;
         private int sourceNo;
 //        private Account destAccount;
@@ -42,7 +42,7 @@ public class Payment extends Transaction{
        double availableBalance;
        
        amount = DisplayMenuPayment();
-       if  ( amount != 0){
+       if  ( amount != 6){
        if (cashDispenser.isSufficientCashAvailable(amount)){
            BankDatabase atmBankDatabase = super.getBankDatabase();
            availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
@@ -79,14 +79,21 @@ public class Payment extends Transaction{
              screen.displayMessage("\nDestination Menu: \n");
          screen.displayMessageLine("1 - Voucher Listrik");
          screen.displayMessageLine("2 - Isi aja");
-         screen.displayMessageLine("0 - Cancel transaction");
+         screen.displayMessageLine("3 - Isi aja");
+         screen.displayMessageLine("4 - Isi aja");
+         screen.displayMessageLine("5 - Isi aja");
+         screen.displayMessageLine("6 - Cancel transaction");
          screen.displayMessage("\nChoose adestination: ");
          int input = keypad.getInput();
          switch(input){
              case 1 : 
                 userChoice = DisplayMenuListrik();
              break;
-             case 2 : break;
+             case 2 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
+             case 3 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
+             case 4 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
+             case 5 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
+                          
              case CANCELED:
                  screen.displayMessageLine("\nCanceling Transaction...");
                  userChoice = CANCELED;break;
@@ -109,7 +116,7 @@ public class Payment extends Transaction{
          screen.displayMessageLine("3 - $60");
          screen.displayMessageLine("4 - $100");
          screen.displayMessageLine("5 - $200");
-         screen.displayMessageLine("0 - Cancel transaction");
+         screen.displayMessageLine("6 - Cancel transaction");
          screen.displayMessage("\nChoose a Voucher amount: ");
          
          int input = keypad.getInput();
@@ -125,7 +132,6 @@ public class Payment extends Transaction{
               userChoice = amounts[input];
               break;
              case CANCELED :
-                 screen.displayMessageLine("\nCanceling Transaction");
                  userChoice = CANCELED;
                  break;
              default : screen.displayMessageLine("\nInvalid Selection...");
