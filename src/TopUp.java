@@ -41,7 +41,15 @@ public class TopUp extends Transaction {
    public void execute() {
        Screen screen = getScreen();
        double availableBalance;
-       
+              
+       destinationNo = promptForDestinationAccount();
+   }
+
+   private int promptForDestinationAccount() {
+      int userChoice = 0; // local variable to store return value
+      Screen screen = getScreen(); // get reference to screen
+      
+      
          screen.displayMessage("\nDestination Menu: \n");
          screen.displayMessageLine("1 - E-Toll");
          screen.displayMessageLine("2 - Dana");
@@ -51,38 +59,15 @@ public class TopUp extends Transaction {
          screen.displayMessageLine("6 - Bukalapak");
          screen.displayMessageLine("0 - Cancel transaction");
          screen.displayMessage("\nChoose adestination: ");
-       
-       destinationNo = promptForDestinationAccount();
-       if(destinationNo != CANCELED){
-           destAccount = bankDatabase.getAccount(destinationNo);
-           if(destAccount != null && destinationNo != sourceNo){
-               amount = promptForAmount();
-               if(amount != CANCELED){
-                   availableBalance = bankDatabase.getAvailableBalance(sourceNo);
-                   if(amount <= availableBalance){
-//                       cashDispenser.dispenseCash((int)amount);
-                       bankDatabase.getAccount(sourceNo).credit(amount);
-                       bankDatabase.getAccount(destinationNo).debit(amount);
-                   }
-                   else {
-                       screen.displayMessageLine("\nInsufficent Funds...");
-                   }
-               }
-           }
-       }
-   }
-
-   private int promptForDestinationAccount() {
-      int userChoice = 0; // local variable to store return value
-      Screen screen = getScreen(); // get reference to screen
 
       int input = keypad.getInput(); // receive input of deposit amount
       switch(input){
           case 1: topupETol(); break;
-          case 2: // akun dana
+          case 2: topupDana();// akun dana
           case 3: topupOvo(); break;
           case 4: topupShopee(); break;// akun shopee
           case 5: topupTokped(); break;
+          case 6: topupBuklap(); break;
       }
       if (input == CANCELED) {
         screen.displayMessageLine(
@@ -238,5 +223,54 @@ public class TopUp extends Transaction {
         } else screen.displayMessageLine("\nNot Enough Saldo\n"); 
         
     }
+    private void topupDana(){
+        Screen screen = getScreen();       
+        BankDatabase atmBankDatabase = super.getBankDatabase();
+        amount = promptForAmount();
+        int agree;
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        
+        if(amount <= Balance){
+            screen.displayMessage("\n Input Dana account with code 2529 + acc number: ");
+
+            int Receiver_Account = keypad.getInput();
+            accountAuthenticatide = atmBankDatabase.userauthentication(super.getAccountNumber());
+            if(accountAuthenticatide = true){
+                screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
+                agree = keypad.getInput();
+                if (agree == 1){
+                atmBankDatabase.debit(Receiver_Account, amount);
+                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
+                } else screen.displayMessage ("Transaksi Di batalkan\n");       
+            } else screen.displayMessage("\nAccount not registered\n");
+        } else screen.displayMessageLine("\nNot Enough Saldo\n");    
+    }
+    private void topupBuklap(){
+     
+     Screen screen = getScreen();       
+        BankDatabase atmBankDatabase = super.getBankDatabase();
+        amount = promptForAmount();
+        int agree;
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        
+        if(amount <= Balance){
+            screen.displayMessage("\n Input Bukalapak account with code 1104 + acc number: ");
+
+            int Receiver_Account = keypad.getInput();
+            accountAuthenticatide = atmBankDatabase.userauthentication(super.getAccountNumber());
+            if(accountAuthenticatide = true){
+                screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
+                agree = keypad.getInput();
+                if (agree == 1){
+                atmBankDatabase.debit(Receiver_Account, amount);
+                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
+                } else { screen.displayMessage ("Transaksi Di batalkan\n");
+                }
+                          
+            } else screen.displayMessage("\nAccount not registered\n");
+        } else screen.displayMessageLine("\nNot Enough Saldo\n");  
+   }
 }
 

@@ -30,8 +30,12 @@ public class BankDatabase {
       accounts[9] = new Account(33400789, 1234, 0, 0);
       // Akun buat Donasi
        accounts[10] = new Account(9988, 2808, 0.0, 0.0);
-      // myadd new
-      
+      // Akun buat Dana
+       accounts[11] = new Account(2529123, 1234, 0, 0);
+       accounts[12] = new Account(2529321, 1234, 0, 0);
+      // Akun buat Bukalapak
+       accounts[13] = new Account(1104123, 1234, 0, 0);
+       accounts[14] = new Account(1104321, 1234, 0, 0);
       // end add
    }
    
