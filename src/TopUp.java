@@ -60,6 +60,7 @@ public class TopUp extends Transaction {
          screen.displayMessageLine("4 - Shopee");
          screen.displayMessageLine("5 - Tokopedia");
          screen.displayMessageLine("6 - Bukalapak");
+         screen.displayMessageLine("7 - Gopay");
          screen.displayMessageLine("0 - Cancel transaction");
          screen.displayMessage("\nChoose adestination: ");
 
@@ -71,6 +72,7 @@ public class TopUp extends Transaction {
           case 4: topupShopee(); break;// akun shopee
           case 5: topupTokped(); break;
           case 6: topupBuklap(); break;
+          case 7: topupGopay(); break;
       }
       if (input == CANCELED) {
         screen.displayMessageLine(
@@ -85,8 +87,7 @@ public class TopUp extends Transaction {
    private double promptForAmount(){
        Screen screen = getScreen(); // get reference to screen
 
-      screen.displayMessage("\nPlease enter amount to transfer in " + 
-         "CENTS (or 0 to cancel): ");
+      screen.displayMessage("\nPlease enter amount to transfer (or 0 to cancel): ");
       int input = keypad.getInput(); // receive input of deposit amount
       
       if (input == CANCELED) {
@@ -95,7 +96,7 @@ public class TopUp extends Transaction {
          return CANCELED;
       }
       else {
-         return (double) input / 100; // return dollar amount
+         return (double) input; // return dollar amount
       }
    }
    private void topupTokped(){
@@ -275,5 +276,28 @@ public class TopUp extends Transaction {
             } else screen.displayMessage("\nAccount not registered\n");
         } else screen.displayMessageLine("\nNot Enough Saldo\n");  
    }
+    
+    private void topupGopay(){
+        Screen screen = getScreen();
+        BankDatabase atmBankDatabase = super.getBankDatabase();
+        screen.displayMessage("\n Masukkan kode perusahaan gojek : 41 dan"
+                + "\n nomor telepon yang terdaftar (Contoh : 4114045)\n");
+        int Receiver_Account = keypad.getInput();
+        accountAuthenticatide = atmBankDatabase.userauthentication(super.getAccountNumber());
+        if(accountAuthenticatide = true){
+            amount = promptForAmount();
+            int agree;
+            double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
+            if(amount <= Balance){
+                screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
+                agree = keypad.getInput();
+                if (agree == 1){
+                    atmBankDatabase.debit(Receiver_Account,amount,CurrencyUnit);
+                    atmBankDatabase.credit(super.getAccountNumber(),amount,CurrencyUnit);
+                    screen.displayMessage("\n Transaksi sukses!");
+                } else screen.displayMessage ("Transaksi di batalkan\n");
+            }else screen.displayMessageLine("\n saldo kurang!\n"); 
+        }else screen.displayMessage("\n akun tidak ditemukan!\n");
+    }
 }
 

@@ -36,6 +36,8 @@ public class BankDatabase {
       // Akun buat Bukalapak
        accounts[13] = new Account(1104123, 1234, 0, 0);
        accounts[14] = new Account(1104321, 1234, 0, 0);
+       // akun buat gopay
+       accounts[15] = new Account(4114045,1234,0,0);
       // end add
    }
    
