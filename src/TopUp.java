@@ -81,7 +81,7 @@ public class TopUp extends Transaction {
           case 1: topupETol(); break;
           case 2: // akun dana
           case 3: // akun ovo
-          case 4: screen.displayMessageLine("lom jalan"); break;// akun shopee
+          case 4: topupShopee(); break;// akun shopee
           case 5: topupTokped(); break;
       }
       if (input == CANCELED) {
@@ -186,5 +186,30 @@ public class TopUp extends Transaction {
                 } else screen.displayMessage("\nAccount tidak ter-registrasi!");
             } else screen.displayMessage("\nSaldo anda tidak cukup!");           
         }
+    }
+    private void topupShopee(){
+        Screen screen = getScreen();       
+        BankDatabase atmBankDatabase = super.getBankDatabase();
+        amount = promptForAmount();
+        int agree;
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        
+        if(amount <= Balance){
+            screen.displayMessage("\n Input receiver account with code 4041 + acc number: ");
+
+            int Receiver_Account = keypad.getInput();
+            accountAuthenticatide = atmBankDatabase.userauthentication(super.getAccountNumber());
+            if(accountAuthenticatide = true){
+                screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
+                agree = keypad.getInput();
+                if (agree == 1){
+                atmBankDatabase.debit(Receiver_Account, amount);
+                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
+                } else { screen.displayMessage ("Transaksi Di batalkan\n");
+                }
+                          
+            } else screen.displayMessage("\nAccount not registered\n");
+        } else screen.displayMessageLine("\nNot Enough Saldo\n");  
     }
 }

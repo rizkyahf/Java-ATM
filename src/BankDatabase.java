@@ -12,7 +12,7 @@ public class BankDatabase {
    // end myadd
    
    public BankDatabase() {
-      accounts = new Account[6]; // just 2 accounts for testing
+      accounts = new Account[8]; // just 2 accounts for testing
       // Akun bank
       accounts[0] = new Account(1234, 4321, 1000.0, 1200.0);
       accounts[1] = new Account(8765, 5678, 200.0, 200.0);
@@ -22,6 +22,9 @@ public class BankDatabase {
       // Akun buat ETol
       accounts[4] = new Account(11111, 1234, 0.0, 0.0);
       accounts[5] = new Account(22222, 8765, 0.0, 0.0);
+      // Akun buat Shopee
+      accounts[6] = new Account(40418765, 1234, 0, 0);
+      accounts[7] = new Account(40411234, 1234, 0, 0);
       // myadd new
       
       // end add
