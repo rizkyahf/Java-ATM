@@ -131,7 +131,8 @@ public class ATM {
                 currentTransaction.execute();
                 break;
             case PAYMENT:
-                
+                currentTransaction = createTransaction(mainMenuSelection);
+                currentTransaction.execute();
                 break;
             case CHANGECURRENCY:
                 
@@ -197,7 +198,7 @@ public class ATM {
              temp = new TopUp(currentAccountNumber, screen, bankDatabase, keypad, depositSlot,  cashDispenser);
              break;
          case PAYMENT:
-             
+             temp = new Payment(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, cashDispenser);
              break;
          case CHANGECURRENCY:
              
