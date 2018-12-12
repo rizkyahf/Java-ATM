@@ -63,7 +63,7 @@ public class TopUp extends Transaction {
       int input = keypad.getInput(); // receive input of deposit amount
       switch(input){
           case 1: topupETol(); break;
-          case 2: topupDana();// akun dana
+          case 2: topupDana();break;// akun dana
           case 3: topupOvo(); break;
           case 4: topupShopee(); break;// akun shopee
           case 5: topupTokped(); break;

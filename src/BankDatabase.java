@@ -12,7 +12,7 @@ public class BankDatabase {
    // end myadd
    
    public BankDatabase() {
-      accounts = new Account[11]; // just 2 accounts for testing
+      accounts = new Account[20]; // just 2 accounts for testing
       // Akun bank
       accounts[0] = new Account(1234, 4321, 1000.0, 1200.0);
       accounts[1] = new Account(8765, 5678, 200.0, 200.0);
