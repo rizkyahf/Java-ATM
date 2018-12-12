@@ -19,10 +19,12 @@ public class TopUp extends Transaction {
    private BankDatabase bankDatabase; // account information database
    private CashDispenser cashDispenser; // reference to cash dispenser
    private boolean accountAuthenticatide;
-
+   private int CurrencyUnit;
+   
    public TopUp(int userAccountNumber, Screen atmScreen, 
       BankDatabase atmBankDatabase, Keypad atmKeypad, 
-      DepositSlot atmDepositSlot, CashDispenser atmCashDispenser) {
+      DepositSlot atmDepositSlot, CashDispenser atmCashDispenser,
+      int atmCurrencyUnit) {
 
       // initialize superclass variables
       super(userAccountNumber, atmScreen, atmBankDatabase);
@@ -34,6 +36,7 @@ public class TopUp extends Transaction {
       sourceNo = userAccountNumber;
       amount = 0;
       cashDispenser = atmCashDispenser;
+      CurrencyUnit = atmCurrencyUnit;
    } 
 
    // perform transaction
@@ -101,7 +104,7 @@ public class TopUp extends Transaction {
         BankDatabase atmBankDatabase = super.getBankDatabase();
         amount = promptForAmount();
         int agree;
-        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
         if(amount <= Balance){
             screen.displayMessage("\n Input Tokopedia account with code 3902 + acc number: ");
@@ -112,8 +115,8 @@ public class TopUp extends Transaction {
                 screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
                 agree = keypad.getInput();
                 if (agree == 1){
-                atmBankDatabase.debit(Receiver_Account, amount);
-                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                atmBankDatabase.debit(Receiver_Account, amount,CurrencyUnit);
+                atmBankDatabase.credit(super.getAccountNumber(), amount,CurrencyUnit);
                 screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
                 } else { screen.displayMessage ("Transaksi Di batalkan\n");
                 }
@@ -151,7 +154,7 @@ public class TopUp extends Transaction {
         BankDatabase atmBankDatabase = super.getBankDatabase();
         amount = promptAmountETol();
         int agree, input;
-        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
 
         if (amount != -1){
             if(amount <= Balance){
@@ -164,8 +167,8 @@ public class TopUp extends Transaction {
                     screen.displayMessage("\nKetik 1 untuk menyetujui transaksi. \nMasukan anda : ");
                     agree = keypad.getInput();
                     if (agree == 1){
-                         atmBankDatabase.debit(input, amount);
-                         atmBankDatabase.credit(super.getAccountNumber(), amount);
+                         atmBankDatabase.debit(input, amount,CurrencyUnit);
+                         atmBankDatabase.credit(super.getAccountNumber(), amount,CurrencyUnit);
                          screen.displayMessage("\nTopUp Sukses!");
                     } else screen.displayMessage("\nTopUp dibatalkan!");
                 } else screen.displayMessage("\nAccount tidak ter-registrasi!");
@@ -177,7 +180,7 @@ public class TopUp extends Transaction {
         BankDatabase atmBankDatabase = super.getBankDatabase();
         amount = promptForAmount();
         int agree;
-        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
         if(amount <= Balance){
             screen.displayMessage("\n Input Shopee account with code 4041 + acc number: ");
@@ -188,8 +191,8 @@ public class TopUp extends Transaction {
                 screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
                 agree = keypad.getInput();
                 if (agree == 1){
-                atmBankDatabase.debit(Receiver_Account, amount);
-                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                atmBankDatabase.debit(Receiver_Account, amount,CurrencyUnit);
+                atmBankDatabase.credit(super.getAccountNumber(), amount,CurrencyUnit);
                 screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
                 } else { screen.displayMessage ("Transaksi Di batalkan\n");
                 }
@@ -202,7 +205,7 @@ public class TopUp extends Transaction {
         BankDatabase atmBankDatabase = super.getBankDatabase();
         amount = promptForAmount();
         int agree;
-        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
         if(amount <= Balance){
             screen.displayMessage("\n Input OVO account with code 3340 + acc number: ");
@@ -213,8 +216,8 @@ public class TopUp extends Transaction {
                 screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
                 agree = keypad.getInput();
                 if (agree == 1){
-                atmBankDatabase.debit(Receiver_Account, amount);
-                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                atmBankDatabase.debit(Receiver_Account, amount,CurrencyUnit);
+                atmBankDatabase.credit(super.getAccountNumber(), amount,CurrencyUnit);
                 screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
                 } else { screen.displayMessage ("Transaksi Di batalkan\n");
                 }
@@ -228,7 +231,7 @@ public class TopUp extends Transaction {
         BankDatabase atmBankDatabase = super.getBankDatabase();
         amount = promptForAmount();
         int agree;
-        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
         if(amount <= Balance){
             screen.displayMessage("\n Input Dana account with code 2529 + acc number: ");
@@ -239,8 +242,8 @@ public class TopUp extends Transaction {
                 screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
                 agree = keypad.getInput();
                 if (agree == 1){
-                atmBankDatabase.debit(Receiver_Account, amount);
-                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                atmBankDatabase.debit(Receiver_Account, amount,CurrencyUnit);
+                atmBankDatabase.credit(super.getAccountNumber(), amount,CurrencyUnit);
                 screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
                 } else screen.displayMessage ("Transaksi Di batalkan\n");       
             } else screen.displayMessage("\nAccount not registered\n");
@@ -252,7 +255,7 @@ public class TopUp extends Transaction {
         BankDatabase atmBankDatabase = super.getBankDatabase();
         amount = promptForAmount();
         int agree;
-        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+        double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
         if(amount <= Balance){
             screen.displayMessage("\n Input Bukalapak account with code 1104 + acc number: ");
@@ -263,8 +266,8 @@ public class TopUp extends Transaction {
                 screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
                 agree = keypad.getInput();
                 if (agree == 1){
-                atmBankDatabase.debit(Receiver_Account, amount);
-                atmBankDatabase.credit(super.getAccountNumber(), amount);
+                atmBankDatabase.debit(Receiver_Account, amount,CurrencyUnit);
+                atmBankDatabase.credit(super.getAccountNumber(), amount,CurrencyUnit);
                 screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + Receiver_Account + "\n");  
                 } else { screen.displayMessage ("Transaksi Di batalkan\n");
                 }

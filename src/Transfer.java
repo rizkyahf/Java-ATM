@@ -9,10 +9,11 @@ public class Transfer extends Transaction {
    private Account destAccount;
    private BankDatabase bankDatabase; // account information database
    private CashDispenser cashDispenser; // reference to cash dispenser
-
+   private int CurrencyUnit;
+   
    public Transfer(int userAccountNumber, Screen atmScreen, 
       BankDatabase atmBankDatabase, Keypad atmKeypad, 
-      DepositSlot atmDepositSlot, CashDispenser atmCashDispenser) {
+      DepositSlot atmDepositSlot, CashDispenser atmCashDispenser, int atmCurrencyUnit) {
 
       // initialize superclass variables
       super(userAccountNumber, atmScreen, atmBankDatabase);
@@ -24,6 +25,7 @@ public class Transfer extends Transaction {
       sourceNo = userAccountNumber;
       amount = 0;
       cashDispenser = atmCashDispenser;
+      CurrencyUnit = atmCurrencyUnit;
    } 
 
    // perform transaction
@@ -38,11 +40,11 @@ public class Transfer extends Transaction {
            if(destAccount != null && destinationNo != sourceNo){
                amount = promptForAmount();
                if(amount != CANCELED){
-                   availableBalance = bankDatabase.getAvailableBalance(sourceNo);
+                   availableBalance = bankDatabase.getAvailableBalance(sourceNo,CurrencyUnit);
                    if(amount <= availableBalance){
 //                       cashDispenser.dispenseCash((int)amount);
-                       bankDatabase.getAccount(sourceNo).credit(amount);
-                       bankDatabase.getAccount(destinationNo).debit(amount);
+                       bankDatabase.getAccount(sourceNo).credit(amount,CurrencyUnit);
+                       bankDatabase.getAccount(destinationNo).debit(amount,CurrencyUnit);
                    }
                    else {
                        screen.displayMessageLine("\nInsufficent Funds...");
@@ -75,8 +77,7 @@ public class Transfer extends Transaction {
    private double promptForAmount(){
        Screen screen = getScreen(); // get reference to screen
 
-      screen.displayMessage("\nPlease enter amount to transfer in " + 
-         "CENTS (or 0 to cancel): ");
+      screen.displayMessage("\nPlease enter amount to transfer (or 0 to cancel): ");
       int input = keypad.getInput(); // receive input of deposit amount
       
       if (input == CANCELED) {
@@ -85,7 +86,7 @@ public class Transfer extends Transaction {
          return CANCELED;
       }
       else {
-         return (double) input / 100; // return dollar amount
+         return (double) input; // return dollar amount
       }
    }
 } 

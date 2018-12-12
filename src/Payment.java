@@ -23,12 +23,14 @@ public class Payment extends Transaction{
         private BankDatabase bankDatabase;
         private CashDispenser cashDispenser;
         private int currentAccountNumber;
+        private int CurrencyUnit;
         
     private boolean userAuthenticated;
 //        private boolean accountAuthentication;
         
     public Payment(int userAccountNumber, Screen atmScreen, 
-      BankDatabase atmBankDatabase, Keypad atmKeypad,DepositSlot atmDepositSlot, CashDispenser atmCashDispenser) {
+      BankDatabase atmBankDatabase, Keypad atmKeypad,DepositSlot atmDepositSlot, CashDispenser atmCashDispenser
+        ,int atmCurrencyUnit) {
         super(userAccountNumber, atmScreen, atmBankDatabase);
         
         keypad = atmKeypad;
@@ -38,6 +40,7 @@ public class Payment extends Transaction{
         sourceNo = userAccountNumber;
         amount = 0;
         cashDispenser = atmCashDispenser;
+        CurrencyUnit = atmCurrencyUnit;
         
     }
 
@@ -50,12 +53,12 @@ public class Payment extends Transaction{
        DonasiKitabisa();
 //       amount = DisplayMenuPayment();
 //       if  ( amount != 0){
-       if (cashDispenser.isSufficientCashAvailable(amount)){
+       if (cashDispenser.isSufficientCashAvailable(amount,CurrencyUnit)){
            BankDatabase atmBankDatabase = super.getBankDatabase();
-           availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+           availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
            if (amount <= availableBalance){
-               cashDispenser.dispenseCash(amount);
-               atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount);
+               cashDispenser.dispenseCash(amount,CurrencyUnit);
+               atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
            }
        }
     }
@@ -207,8 +210,8 @@ public class Payment extends Transaction{
         {
             currentAccountNumber = accountNumber;
             jumlah = promptForTransferAmount();
-            bankDatabase.debit(currentAccountNumber,jumlah);
-            bankDatabase.credit(getAccountNumber(), jumlah);
+            bankDatabase.debit(currentAccountNumber,jumlah,CurrencyUnit);
+            bankDatabase.credit(getAccountNumber(), jumlah,CurrencyUnit);
             screen.displayMessage("\nTransfer Berhasil, Terima Kasih");
         }
      else {

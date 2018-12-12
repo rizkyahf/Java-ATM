@@ -11,10 +11,11 @@
  */
 public class Activity extends Transaction {
    private BankDatabase bankDatabase; // account information database
-
-    public Activity(int userAccountNumber, Screen atmScreen, BankDatabase atmBankDatabase) {
+   private int CurrencyUnit;
+    public Activity(int userAccountNumber, Screen atmScreen, BankDatabase atmBankDatabase, int atmCurrencyUnit) {
         super(userAccountNumber, atmScreen, atmBankDatabase);
         bankDatabase = atmBankDatabase;
+        CurrencyUnit = atmCurrencyUnit;
         
     }
     
@@ -28,17 +29,17 @@ public class Activity extends Transaction {
         for(AccountLog acl : bankDatabase.getAccountLog(super.getAccountNumber())){
             if(acl.isIsDeposit() == true ){
                 screen.displayMessage("\n Deposit \t ");
-                screen.displayDollarAmount(acl.getAmount());
+                screen.displayDollarAmount(acl.getAmount(),CurrencyUnit);
                 screen.displayMessage("\t\t\t");
             }
             else{
                 screen.displayMessage("\n Withdrawal \t\t\t ");
-                screen.displayDollarAmount(acl.getAmount());
+                screen.displayDollarAmount(acl.getAmount(),CurrencyUnit);
                 screen.displayMessage("\t");
             }
             
             screen.displayMessage(" Total Balance ");
-            screen.displayDollarAmount(acl.getTotalBalance());
+            screen.displayDollarAmount(acl.getTotalBalance(),CurrencyUnit);
         }
         screen.displayMessage("\n");
     }

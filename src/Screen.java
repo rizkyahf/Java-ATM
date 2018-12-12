@@ -10,7 +10,8 @@ public class Screen {
    } 
 
    // displays a dollar amount
-   public void displayDollarAmount(double amount) {
-      System.out.printf("$%,.2f", amount);   
+   public void displayDollarAmount(double amount,int CurrencyUnit) {
+     if(CurrencyUnit == 1) System.out.printf("$%,.2f", amount);   
+     else if(CurrencyUnit == 2) System.out.printf("Rp%,.2f", amount);  
    }
 } 

@@ -11,7 +11,8 @@ public class ATM {
    private DepositSlot depositSlot;
    // end add
    private BankDatabase bankDatabase; // account information database
-
+   private int CurrencyUnit = 1; // 1 means USD and 2 means IDR
+   
    // constants corresponding to main menu options
    private static final int BALANCE_INQUIRY = 1;
    private static final int WITHDRAWAL = 2;
@@ -135,7 +136,11 @@ public class ATM {
                 currentTransaction.execute();
                 break;
             case CHANGECURRENCY:
-                
+                screen.displayMessageLine("\nMata uang sekarang : ");
+                getCurrencyUnit(CurrencyUnit);
+                int pilihan = CurrencyMenu();
+                if (pilihan != 0) setCurrencyUnit(pilihan);
+                else break; 
                 break;
             case ACTIVITY:
                 currentTransaction = createTransaction(mainMenuSelection);
@@ -174,6 +179,13 @@ public class ATM {
       screen.displayMessage("Enter a choice: ");
       return keypad.getInput(); // return user's selection
    } 
+   
+   private int CurrencyMenu(){
+        screen.displayMessageLine("\nPilih untuk mengubah mata uang (0 untuk membatalkan");
+        screen.displayMessage("\n1. US Dollar ");
+        screen.displayMessage("\n2. Indonesia Rupiah \n");
+        return keypad.getInput();
+   }
          
    private Transaction createTransaction(int type) {
       Transaction temp = null; 
@@ -181,30 +193,30 @@ public class ATM {
       switch (type) {
          case BALANCE_INQUIRY: 
             temp = new BalanceInquiry(
-               currentAccountNumber, screen, bankDatabase);
+               currentAccountNumber, screen, bankDatabase, CurrencyUnit);
             break;
          // myadd
          case WITHDRAWAL:
-            temp = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser);
+            temp = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser, CurrencyUnit);
             break;
          case DEPOSIT:
-            temp = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, depositSlot);
+            temp = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, CurrencyUnit);
             break;
          // myadd new
          case TRANSFER:
-            temp = new Transfer(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, cashDispenser);
+            temp = new Transfer(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, cashDispenser, CurrencyUnit);
             break;
          case TOPUP:
-             temp = new TopUp(currentAccountNumber, screen, bankDatabase, keypad, depositSlot,  cashDispenser);
+             temp = new TopUp(currentAccountNumber, screen, bankDatabase, keypad, depositSlot,  cashDispenser,CurrencyUnit);
              break;
          case PAYMENT:
-             temp = new Payment(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, cashDispenser);
+             temp = new Payment(currentAccountNumber, screen, bankDatabase, keypad, depositSlot, cashDispenser, CurrencyUnit);
              break;
          case CHANGECURRENCY:
              
              break;
          case ACTIVITY:
-             temp = new Activity(currentAccountNumber, screen, bankDatabase);
+             temp = new Activity(currentAccountNumber, screen, bankDatabase,CurrencyUnit);
              break;
          case CHANGEPIN:
              temp = new changePin(currentAccountNumber, screen, bankDatabase, keypad);
@@ -218,5 +230,13 @@ public class ATM {
       }
 
       return temp;
-   } 
+   }
+   private void getCurrencyUnit(int CurrencyUnit){
+       if(CurrencyUnit==1) screen.displayMessage("USD");
+       else if(CurrencyUnit==2) screen.displayMessage("IDR");
+   }
+   
+   private void setCurrencyUnit(int NewCurrency){
+       CurrencyUnit = NewCurrency;
+   }
 }

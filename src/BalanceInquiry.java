@@ -1,9 +1,11 @@
 public class BalanceInquiry extends Transaction {
    // BalanceInquiry constructor
+   private int CurrencyUnit;
    public BalanceInquiry(int userAccountNumber, Screen atmScreen, 
-      BankDatabase atmBankDatabase) {
+      BankDatabase atmBankDatabase, int atmCurrencyUnit) {
 
       super(userAccountNumber, atmScreen, atmBankDatabase);
+      CurrencyUnit = atmCurrencyUnit;
    } 
 
    // performs the transaction
@@ -15,18 +17,18 @@ public class BalanceInquiry extends Transaction {
 
       // get the available balance for the account involved
       double availableBalance = 
-         bankDatabase.getAvailableBalance(getAccountNumber());
+         bankDatabase.getAvailableBalance(getAccountNumber(),CurrencyUnit);
 
       // get the total balance for the account involved
       double totalBalance = 
-         bankDatabase.getTotalBalance(getAccountNumber());
+         bankDatabase.getTotalBalance(getAccountNumber(),CurrencyUnit);
       
       // display the balance information on the screen
       screen.displayMessageLine("\nBalance Information:");
       screen.displayMessage(" - Available balance: "); 
-      screen.displayDollarAmount(availableBalance);
+      screen.displayDollarAmount(availableBalance,CurrencyUnit);
       screen.displayMessage("\n - Total balance:     ");
-      screen.displayDollarAmount(totalBalance);
+      screen.displayDollarAmount(totalBalance,CurrencyUnit);
       screen.displayMessageLine("");
    }
 } 

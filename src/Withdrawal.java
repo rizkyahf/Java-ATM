@@ -5,14 +5,15 @@ public class Withdrawal extends Transaction {
    private int amount; // amount to withdraw
    private Keypad keypad; // reference to keypad
    private CashDispenser cashDispenser; // reference to cash dispenser
-
+   private int CurrencyUnit;
+   
    // constant corresponding to menu option to cancel
    private final static int CANCELED = 0;
 
    // Withdrawal constructor
    public Withdrawal(int userAccountNumber, Screen atmScreen, 
       BankDatabase atmBankDatabase, Keypad atmKeypad, 
-      CashDispenser atmCashDispenser) {
+      CashDispenser atmCashDispenser, int atmCurrencyUnit) {
 
       // initialize superclass variables
       super(userAccountNumber, atmScreen, atmBankDatabase);
@@ -21,6 +22,7 @@ public class Withdrawal extends Transaction {
       amount = 0;
       keypad = atmKeypad;
       cashDispenser = atmCashDispenser;
+      CurrencyUnit = atmCurrencyUnit;
       // end add
    }
 
@@ -29,16 +31,17 @@ public class Withdrawal extends Transaction {
    public void execute() {
        // myadd
        double availableBalance;
-       amount = displayMenuOfAmounts();
+       if(CurrencyUnit == 2) amount = displayMenuOfAmountsIDR();
+       else amount = displayMenuOfAmounts();
 //       if(amount != 0){
        if(amount != 0){
-           if(cashDispenser.isSufficientCashAvailable(amount)){
+           if(cashDispenser.isSufficientCashAvailable(amount,CurrencyUnit)){
                BankDatabase atmBankDatabase = super.getBankDatabase();
-               availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
+               availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
                
                if(amount <= availableBalance){
-                   cashDispenser.dispenseCash(amount);
-                   atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount);
+                   cashDispenser.dispenseCash(amount,CurrencyUnit);
+                   atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
                }
            }
        }
@@ -96,6 +99,57 @@ public class Withdrawal extends Transaction {
                screen.displayMessageLine(
                   "\nInvalid selection. Try again.");
              //end add
+         } 
+      } 
+
+      return userChoice; // return withdrawal amount or CANCELED
+   }
+   
+   private int displayMenuOfAmountsIDR() {
+      int userChoice = 0; // local variable to store return value
+
+      Screen screen = getScreen(); // get screen reference
+      
+      // array of amounts to correspond to menu numbers
+      int[] amounts = {0, 20000, 50000, 100000, 150000, 200000};
+
+      // loop while no valid choice has been made
+      while (userChoice == 0) {
+         // display the withdrawal menu
+         screen.displayMessageLine("\nWithdrawal Menu:");
+         screen.displayMessageLine("1 - Rp20000");
+         screen.displayMessageLine("2 - Rp50000");
+         screen.displayMessageLine("3 - Rp100000");
+         screen.displayMessageLine("4 - Rp150000");
+         screen.displayMessageLine("5 - Rp200000");
+         screen.displayMessageLine("6 - Cancel transaction");
+         screen.displayMessage("\nChoose a withdrawal amount: ");
+
+         int input = keypad.getInput(); // get user input through keypad
+
+         // determine how to proceed based on the input value
+         switch (input) {
+            case 1: 
+               userChoice = amounts[input]; // save user's choice
+               break; 
+            case 2: 
+               userChoice = amounts[input]; // save user's choice
+               break; 
+            case 3: 
+               userChoice = amounts[input]; // save user's choice
+               break; 
+            case 4:
+               userChoice = amounts[input]; // save user's choice
+               break;  
+            case 5:
+               userChoice = amounts[input]; // save user's choice
+               break;       
+            case CANCELED: // the user chose to cancel
+               userChoice = amounts[CANCELED]; // save user's choice
+               break;
+            default: // the user did not enter a value from 1-6
+               screen.displayMessageLine(
+                  "\nInvalid selection. Try again.");
          } 
       } 
 

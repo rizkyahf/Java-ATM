@@ -40,19 +40,23 @@ public class Account {
    } 
 
    // returns available balance
-   public double getAvailableBalance() {
-      return availableBalance;
+   public double getAvailableBalance(int atmCurrencyUnit) {
+      if(atmCurrencyUnit == 2) return availableBalance*getConversion(atmCurrencyUnit);
+      else return availableBalance;
    } 
 
    // returns the total balance
-   public double getTotalBalance() {
-      return totalBalance;
+   public double getTotalBalance(int atmCurrencyUnit) {
+      if(atmCurrencyUnit == 2) return totalBalance*getConversion(atmCurrencyUnit);
+      else return totalBalance;
    } 
 
-   public void credit(double amount) {
+   public void credit(double amount,int atmCurrencyUnit) {
      // myadd
-     this.availableBalance -= amount;
-     this.totalBalance -= amount;
+     int n = 1;
+     if (atmCurrencyUnit == 2) n = getConversion(atmCurrencyUnit); 
+     this.availableBalance -= amount/n;
+     this.totalBalance -= amount/n;
      // end add
      // myadd new
      AccountLog temp = new AccountLog(false, amount, this.totalBalance);
@@ -60,10 +64,12 @@ public class Account {
      // end myadd
    }
 
-   public void debit(double amount) {
+   public void debit(double amount,int atmCurrencyUnit) {
      // myadd
-//     this.availableBalance += amount;
-     this.totalBalance += amount;
+     int n = 1;
+     if (atmCurrencyUnit == 2) n = getConversion(atmCurrencyUnit);
+     this.availableBalance += amount/n;
+     this.totalBalance += amount/n;
      // end add
      // myadd new
      AccountLog temp = new AccountLog(true, amount, this.totalBalance);
@@ -91,6 +97,11 @@ public class Account {
 
     public void setPin(int pin) {
         this.pin = pin;
+    }
+    
+    public int getConversion(int CurrencyUnit){
+        if(CurrencyUnit == 2) return 14426;
+        else return 1;
     }
 
 } 

@@ -68,20 +68,20 @@ public class BankDatabase {
       }
    } 
 
-   public double getAvailableBalance(int userAccountNumber) {
-      return getAccount(userAccountNumber).getAvailableBalance();
+   public double getAvailableBalance(int userAccountNumber, int CurrencyUnit) {
+      return getAccount(userAccountNumber).getAvailableBalance(CurrencyUnit);
    } 
 
-   public double getTotalBalance(int userAccountNumber) {
-      return getAccount(userAccountNumber).getTotalBalance();
+   public double getTotalBalance(int userAccountNumber, int CurrencyUnit) {
+      return getAccount(userAccountNumber).getTotalBalance(CurrencyUnit);
    } 
 
-   public void credit(int userAccountNumber, double amount) {
-      getAccount(userAccountNumber).credit(amount);
+   public void credit(int userAccountNumber, double amount, int CurrencyUnit) {
+      getAccount(userAccountNumber).credit(amount,CurrencyUnit);
    }
 
-   public void debit(int userAccountNumber, double amount) {
-      getAccount(userAccountNumber).debit(amount);
+   public void debit(int userAccountNumber, double amount, int CurrencyUnit) {
+      getAccount(userAccountNumber).debit(amount,CurrencyUnit);
    } 
    boolean userauthentication(int accountNumber) {
         Account userAccount = getAccount(accountNumber);

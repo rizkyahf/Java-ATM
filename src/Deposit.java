@@ -3,11 +3,11 @@ public class Deposit extends Transaction {
    private Keypad keypad; // reference to keypad
    private DepositSlot depositSlot; // reference to deposit slot
    private final static int CANCELED = 0; // constant for cancel option
-
+   private int CurrencyUnit;
    // Deposit constructor
    public Deposit(int userAccountNumber, Screen atmScreen, 
       BankDatabase atmBankDatabase, Keypad atmKeypad, 
-      DepositSlot atmDepositSlot) {
+      DepositSlot atmDepositSlot, int atmCurrencyUnit) {
 
       // initialize superclass variables
       super(userAccountNumber, atmScreen, atmBankDatabase);
@@ -16,6 +16,7 @@ public class Deposit extends Transaction {
       depositSlot = atmDepositSlot;
       keypad = atmKeypad;
       amount = 0;
+      CurrencyUnit = atmCurrencyUnit;
       // end add
    } 
 
@@ -29,7 +30,7 @@ public class Deposit extends Transaction {
            System.out.printf("\nPlease insert a deposit envelope containing $%.02f.\n ", amount);
 
            BankDatabase atmBankDatabase = super.getBankDatabase();
-           atmBankDatabase.getAccount(super.getAccountNumber()).debit(amount);
+           atmBankDatabase.getAccount(super.getAccountNumber()).debit(amount,CurrencyUnit);
            
            screen.displayMessage("\nYour envelope has been received."+
                    "\nNOTE: The money just deposited will not be available "+
@@ -43,8 +44,7 @@ public class Deposit extends Transaction {
       Screen screen = getScreen(); // get reference to screen
 
       // display the prompt
-      screen.displayMessage("\nPlease enter a deposit amount in " + 
-         "CENTS (or 0 to cancel): ");
+      screen.displayMessage("\nPlease enter a deposit amount (or 0 to cancel): ");
       int input = keypad.getInput(); // receive input of deposit amount
       
       // check whether the user canceled or entered a valid amount
@@ -56,7 +56,7 @@ public class Deposit extends Transaction {
          return CANCELED;
       }
       else {
-         return (double) input / 100; // return dollar amount
+         return (double) input; // return dollar amount
       }
    }
 } 
