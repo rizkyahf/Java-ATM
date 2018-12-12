@@ -12,7 +12,7 @@ public class BankDatabase {
    // end myadd
    
    public BankDatabase() {
-      accounts = new Account[8]; // just 2 accounts for testing
+      accounts = new Account[11]; // just 2 accounts for testing
       // Akun bank
       accounts[0] = new Account(1234, 4321, 1000.0, 1200.0);
       accounts[1] = new Account(8765, 5678, 200.0, 200.0);
@@ -26,8 +26,10 @@ public class BankDatabase {
       accounts[6] = new Account(40418765, 1234, 0, 0);
       accounts[7] = new Account(40411234, 1234, 0, 0);
       //Akun buat OVO
-      accounts[8] = new Account(3340890, 1234, 0, 0);
-      accounts[9] = new Account(3340789, 1234, 0, 0);
+      accounts[8] = new Account(33400890, 1234, 0, 0);
+      accounts[9] = new Account(33400789, 1234, 0, 0);
+      // Akun buat Donasi
+       accounts[10] = new Account(9988, 2808, 0.0, 0.0);
       // myadd new
       
       // end add
@@ -96,4 +98,14 @@ public class BankDatabase {
    public void ChangePin(int userAccountNumber, int newPin) {
        getAccount(userAccountNumber).setPin(newPin);
     } 
+   public boolean authenticateUsertoTransfer (int userAccountNumber) {
+       Account userAccount = getAccount (userAccountNumber);
+       
+       if (userAccount != null) {
+           return true;
+       }
+       else{
+           return false;
+       }
+   }
 } 

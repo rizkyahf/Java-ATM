@@ -13,14 +13,18 @@ import java.util.Random;
  */
 public class Payment extends Transaction{
         private int amount;
+        private double jumlah;
         private Keypad keypad;
         private DepositSlot depositSlot;
-        private final static int CANCELED = 6;
+        private final static int CANCELED = 0;
         private int destinationNo;
         private int sourceNo;
 //        private Account destAccount;
         private BankDatabase bankDatabase;
         private CashDispenser cashDispenser;
+        private int currentAccountNumber;
+        
+    private boolean userAuthenticated;
 //        private boolean accountAuthentication;
         
     public Payment(int userAccountNumber, Screen atmScreen, 
@@ -40,9 +44,12 @@ public class Payment extends Transaction{
     @Override
     public void execute() {
        double availableBalance;
-       
-       amount = DisplayMenuPayment();
-       if  ( amount != 6){
+       int userChoice = 0;
+        Screen screen = getScreen();
+
+       DonasiKitabisa();
+//       amount = DisplayMenuPayment();
+//       if  ( amount != 0){
        if (cashDispenser.isSufficientCashAvailable(amount)){
            BankDatabase atmBankDatabase = super.getBankDatabase();
            availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber());
@@ -52,7 +59,7 @@ public class Payment extends Transaction{
            }
        }
     }
-    }
+//    }
     
     
 //    private int prompForDestinationAccount(){
@@ -61,8 +68,9 @@ public class Payment extends Transaction{
 //        
 //        int input = keypad.getInput();
 //        switch(input){
-//            case 1 ://VoucherListrik();break;
-//            case 2 : //apa ajaa
+//            case 1 ://VoucherListrik();
+//                break;
+//            case 2 : displayMenuDonasi(); break;
 //        }
 //        if (input == CANCELED){
 //            screen.displayMessageLine("\nCanceling transaction...");
@@ -78,7 +86,7 @@ public class Payment extends Transaction{
          while (userChoice == 0){
              screen.displayMessage("\nDestination Menu: \n");
          screen.displayMessageLine("1 - Voucher Listrik");
-         screen.displayMessageLine("2 - Isi aja");
+         screen.displayMessageLine("2 - Donasi");
          screen.displayMessageLine("3 - Isi aja");
          screen.displayMessageLine("4 - Isi aja");
          screen.displayMessageLine("5 - Isi aja");
@@ -149,5 +157,63 @@ public class Payment extends Transaction{
          }
          System.out.print("");
      }
-    }
+//     private int displayMenuDonasi(){
+//      Screen screen = getScreen();
+//      screen.displayMessageLine("\nPilih Donasi:");
+//      screen.displayMessageLine("1 - kitabisa.com");
+//      screen.displayMessageLine("6 - Exit\n");
+//      screen.displayMessage("Enter a choice: ");
+//      return keypad.getInput(); // return user's selection
+//     }
+//      private int promptForTujuanDonasi() {
+//      int userChoice = 0; // local variable to store return value
+//      Screen screen = getScreen(); // get reference to screen
+//
+//      int input = keypad.getInput(); // receive input of deposit amount
+//      switch(input){
+//          case 1: DonasiKitabisa(); break;
+////          case 2: ;break
+//      }
+//      if (input == CANCELED) {
+//        screen.displayMessageLine(
+//           "\nCanceling transaction...");
+//         return CANCELED;
+//      }
+//      else {
+//         return (int) input; 
+//      }
+//   }
+     private double promptForTransferAmount(){
+        Screen screen = getScreen();
+        
+        // input account number
+        screen.displayMessage("\nMasukkan jumlah yang akan didonasikan" + 
+         " (dalam CENTS) : ");
+        int input = keypad.getInput();
+        return (double) input / 100;
+       // receive input of deposit amount
+//        return (double) input / 100; // return dollar amount
+    } 
+     private void DonasiKitabisa()
+     {
+      Screen screen = getScreen();
+        BankDatabase bankDatabase = getBankDatabase();
+        int accountNumber = 9988;
+    
+        
+        userAuthenticated = 
+        bankDatabase.authenticateUsertoTransfer(accountNumber);
+        if (userAuthenticated)
+        {
+            currentAccountNumber = accountNumber;
+            jumlah = promptForTransferAmount();
+            bankDatabase.debit(currentAccountNumber,jumlah);
+            bankDatabase.credit(getAccountNumber(), jumlah);
+            screen.displayMessage("\nTransfer Berhasil, Terima Kasih");
+        }
+     else {
+           screen.displayMessageLine("Transfer Gagal");   
+     }
+     }
+}
 
