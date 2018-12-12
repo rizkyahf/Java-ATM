@@ -25,6 +25,9 @@ public class BankDatabase {
       // Akun buat Shopee
       accounts[6] = new Account(40418765, 1234, 0, 0);
       accounts[7] = new Account(40411234, 1234, 0, 0);
+      //Akun buat OVO
+      accounts[8] = new Account(3340890, 1234, 0, 0);
+      accounts[9] = new Account(3340789, 1234, 0, 0);
       // myadd new
       
       // end add
