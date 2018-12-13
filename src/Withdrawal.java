@@ -143,7 +143,10 @@ public class Withdrawal extends Transaction {
                break;  
             case 5:
                userChoice = amounts[input]; // save user's choice
-               break;       
+               break;     
+            case 6 : 
+                userChoice = amounts[input];
+                break;
             case CANCELED: // the user chose to cancel
                userChoice = amounts[CANCELED]; // save user's choice
                break;
