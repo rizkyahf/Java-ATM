@@ -30,6 +30,7 @@ public class changePin extends Transaction {
             screen.displayMessage("\nPlease enter your new pin : ");
             int newPin = keypad.getInput(); // input new pin
             bankDatabase.ChangePin(getAccountNumber(), newPin);
+            screen.displayMessage("\nYour pin has changed");
         } 
         else screen.displayMessage("\nPin yang anda masukkan salah....");
     }
