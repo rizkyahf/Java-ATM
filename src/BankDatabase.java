@@ -18,26 +18,20 @@ public class BankDatabase {
       accounts[1] = new Account(8765, 5678, 200.0, 200.0);
       //Akun buat tokopedia
       accounts[2] = new Account(39028765, 1234, 0, 0);
-      accounts[3] = new Account(39021234, 1234, 0, 0);
       // Akun buat ETol
-      accounts[4] = new Account(11111, 1234, 0.0, 0.0);
-      accounts[5] = new Account(22222, 8765, 0.0, 0.0);
+      accounts[3] = new Account(11111, 1234, 0.0, 0.0);
       // Akun buat Shopee
-      accounts[6] = new Account(40418765, 1234, 0, 0);
-      accounts[7] = new Account(40411234, 1234, 0, 0);
+      accounts[4] = new Account(40418765, 1234, 0, 0);
       //Akun buat OVO
-      accounts[8] = new Account(33400890, 1234, 0, 0);
-      accounts[9] = new Account(33400789, 1234, 0, 0);
+      accounts[5] = new Account(33400890, 1234, 0, 0);
       // Akun buat Donasi
-       accounts[10] = new Account(9988, 2808, 0.0, 0.0);
+       accounts[6] = new Account(9988, 2808, 0.0, 0.0);
       // Akun buat Dana
-       accounts[11] = new Account(2529123, 1234, 0, 0);
-       accounts[12] = new Account(2529321, 1234, 0, 0);
+       accounts[7] = new Account(2529123, 1234, 0, 0);
       // Akun buat Bukalapak
-       accounts[13] = new Account(1104123, 1234, 0, 0);
-       accounts[14] = new Account(1104321, 1234, 0, 0);
+       accounts[8] = new Account(1104123, 1234, 0, 0);
        // akun buat gopay
-       accounts[15] = new Account(4114045,1234,0,0);
+       accounts[9] = new Account(4114045,1234,0,0);
       // end add
    }
    
