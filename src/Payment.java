@@ -16,7 +16,7 @@ public class Payment extends Transaction{
         private double jumlah;
         private Keypad keypad;
         private DepositSlot depositSlot;
-        private final static int CANCELED = 0;
+        private final static int CANCELED = 6;
         private int destinationNo;
         private int sourceNo;
 //        private Account destAccount;
@@ -47,12 +47,12 @@ public class Payment extends Transaction{
     @Override
     public void execute() {
        double availableBalance;
-       int userChoice = 0;
+//       int userChoice = 0;
         Screen screen = getScreen();
 
-       DonasiKitabisa();
-//       amount = DisplayMenuPayment();
-//       if  ( amount != 0){
+//       DonasiKitabisa();
+       amount = DisplayMenuPayment();
+       if  ( amount != 6){
        if (cashDispenser.isSufficientCashAvailable(amount,CurrencyUnit)){
            BankDatabase atmBankDatabase = super.getBankDatabase();
            availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
@@ -62,7 +62,7 @@ public class Payment extends Transaction{
            }
        }
     }
-//    }
+    }
     
     
 //    private int prompForDestinationAccount(){
@@ -100,7 +100,9 @@ public class Payment extends Transaction{
              case 1 : 
                 userChoice = DisplayMenuListrik();
              break;
-             case 2 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
+             case 2 :
+               DonasiKitabisa();
+                      break;
              case 3 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
              case 4 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
              case 5 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
