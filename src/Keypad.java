@@ -14,4 +14,8 @@ public class Keypad {
    public String getLine(){
       return input.next(); // user enters an String
    }
+   
+   public boolean hasNextInput(){
+       return input.hasNextInt();
+   }
 } 

@@ -1,5 +1,5 @@
 
-import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class ATM {
    private boolean userAuthenticated; // whether user is authenticated
@@ -25,7 +25,6 @@ public class ATM {
    private static final int ACTIVITY = 8;
    private static final int CHANGEPIN = 9;
    // end add
-//   private static final int EXIT = 4;
    private static final int EXIT = 0;
 
    // no-argument ATM constructor initializes instance variables
@@ -59,13 +58,23 @@ public class ATM {
     private void authenticateUser() {
         int i = 0;
         screen.displayMessage("\nPlease enter your account number: ");
-        int accountNumber = keypad.getInput(); // input account number
+        int accountNumber = 0;
+        int pin = 0;
+                
+        while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessage("\nPlease re-enter your account number: ");
+        }
+        accountNumber = keypad.getInput();
+        
         while (i < 3){
             screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
-      //      char[] pw = System.console().readPassword();
-      //      Arrays.fill(pw, '*');
-      //      int pin = Integer.parseInt(pw); // input PIN
-            int pin = keypad.getInput(); // input PIN
+            try{
+                pin = keypad.getInput(); // input PIN
+            } catch(InputMismatchException e){
+                screen.displayMessage("\n Error: " + e);
+//                exit;
+            }
 
             // set userAuthenticated to boolean value returned by database
             userAuthenticated = bankDatabase.authenticateUser(accountNumber, pin);
