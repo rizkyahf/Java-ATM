@@ -70,8 +70,13 @@ public class ATM {
             while (i < 3){
                 Account Akun = bankDatabase.getAccount(accountNumber);
                 screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
+                
+                while(!keypad.hasNextInput()){
+                    keypad.getLine();
+                    screen.displayMessage("\nPlease re-enter your PIN : ");
+                }
                 int pin = keypad.getInput(); // input PIN
-            
+                
                 if (bankDatabase.cekstatus(accountNumber) == true){
                     if (Akun.validatePIN(pin) == true){
                         currentAccountNumber = accountNumber; // save user's account #
