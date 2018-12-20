@@ -28,12 +28,12 @@ public class Activity extends Transaction {
 //        bankDatabase.getAccount(super.getAccountNumber()).getAccountLog();
         for(AccountLog acl : bankDatabase.getAccountLog(super.getAccountNumber())){
             if(acl.isIsDeposit() == true ){
-                screen.displayMessage("\n Deposit \t ");
+                screen.displayMessage("\n Debit \t ");
                 screen.displayDollarAmount(acl.getAmount(),CurrencyUnit);
                 screen.displayMessage("\t\t\t");
             }
             else{
-                screen.displayMessage("\n Withdrawal \t\t\t ");
+                screen.displayMessage("\n Credit \t\t\t ");
                 screen.displayDollarAmount(acl.getAmount(),CurrencyUnit);
                 screen.displayMessage("\t");
             }

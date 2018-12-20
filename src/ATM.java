@@ -1,5 +1,5 @@
 
-import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class ATM {
    private boolean userAuthenticated; // whether user is authenticated
@@ -25,7 +25,6 @@ public class ATM {
    private static final int ACTIVITY = 8;
    private static final int CHANGEPIN = 9;
    // end add
-//   private static final int EXIT = 4;
    private static final int EXIT = 0;
 
    // no-argument ATM constructor initializes instance variables
@@ -59,7 +58,13 @@ public class ATM {
     private void authenticateUser() {
         int i = 0;
         screen.displayMessage("\nPlease enter your account number: ");
-        int accountNumber = keypad.getInput();
+        int accountNumber = 0;
+        
+        while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessage("\nPlease re-enter your account number: ");
+        }
+        accountNumber = keypad.getInput();
         userAuthenticated = bankDatabase.authenticateUser(accountNumber);
         if (userAuthenticated){
             while (i < 3){
@@ -67,18 +72,18 @@ public class ATM {
                 screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
                 int pin = keypad.getInput(); // input PIN
             
-                if (Akun.validatePIN(pin) == true){
-                    if (bankDatabase.cekstatus(accountNumber) == true){
+                if (bankDatabase.cekstatus(accountNumber) == true){
+                    if (Akun.validatePIN(pin) == true){
                         currentAccountNumber = accountNumber; // save user's account #
                         i = 4;
                     } else {
-                        i = 4;
-                        screen.displayMessage("Akun di BLOKIR");
-                        userAuthenticated = false;
+                        i++;
+                        screen.displayMessage("Invalid pin number.\n");
                     }
                 } else {
-                    i++;
-                    screen.displayMessage("Invalid pin number.\n");
+                    i = 4;
+                    screen.displayMessage("Akun di BLOKIR");
+                    userAuthenticated = false;
                 }
             } 
             if (i == 3) {
