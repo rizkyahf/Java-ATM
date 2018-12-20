@@ -43,8 +43,8 @@ public class Withdrawal extends Transaction {
                if(amount <= availableBalance){
                    cashDispenser.dispenseCash(amount,CurrencyUnit);
                    atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
-               } else screen.displayMessage("\nYou don't have enough balance!");
-           }
+               } 
+           } else screen.displayMessage("\nYou don't have enough balance!");
        }
        // end add
    } 
