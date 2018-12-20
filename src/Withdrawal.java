@@ -29,6 +29,7 @@ public class Withdrawal extends Transaction {
    // perform transaction
    @Override
    public void execute() {
+       Screen screen = getScreen(); // get screen reference
        // myadd
        double availableBalance;
        if(CurrencyUnit == 2) amount = displayMenuOfAmountsIDR();
@@ -42,6 +43,7 @@ public class Withdrawal extends Transaction {
                if(amount <= availableBalance){
                    cashDispenser.dispenseCash(amount,CurrencyUnit);
                    atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
+                   screen.displayMessage("\nYou don't have enough balance!");
                }
            }
        }
