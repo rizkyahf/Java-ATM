@@ -8,7 +8,7 @@ public class Withdrawal extends Transaction {
    private int CurrencyUnit;
    
    // constant corresponding to menu option to cancel
-   private final static int CANCELED = 0;
+   private final static int CANCELED = 7;
 
    // Withdrawal constructor
    public Withdrawal(int userAccountNumber, Screen atmScreen, 
@@ -69,7 +69,7 @@ public class Withdrawal extends Transaction {
          screen.displayMessageLine("4 - $100");
          screen.displayMessageLine("5 - $200");
          screen.displayMessageLine("6 - Custom withdrawal");
-         screen.displayMessageLine("0 - Cancel transaction");
+         screen.displayMessageLine("7 - Cancel transaction");
          screen.displayMessage("\nChoose a withdrawal amount: ");
 
          int input = keypad.getInput(); // get user input through keypad
@@ -88,7 +88,9 @@ public class Withdrawal extends Transaction {
                break;   
             case 6:
                 getScreen().displayMessage("\nInput how much you will withdrawal : ");
-                userChoice = keypad.getInput();
+               if(keypad.getInput() > 0){
+                    userChoice = keypad.getInput();
+               }else screen.displayMessage("\nThe Number Must be Postive");
                 break;
             case CANCELED: // the user chose to cancel
                 
@@ -123,7 +125,7 @@ public class Withdrawal extends Transaction {
          screen.displayMessageLine("3 - Rp100000");
          screen.displayMessageLine("4 - Rp150000");
          screen.displayMessageLine("5 - Rp200000");
-         screen.displayMessageLine("6 - Cancel transaction");
+         screen.displayMessageLine("7 - Cancel transaction");
          screen.displayMessage("\nChoose a withdrawal amount: ");
 
          int input = keypad.getInput(); // get user input through keypad

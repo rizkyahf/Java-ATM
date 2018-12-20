@@ -55,11 +55,11 @@ public class Payment extends Transaction{
        if  ( amount != 6){
        if (cashDispenser.isSufficientCashAvailable(amount,CurrencyUnit)){
            BankDatabase atmBankDatabase = super.getBankDatabase();
-           availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
+           availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),amount);
            if (amount <= availableBalance){
                cashDispenser.dispenseCash(amount,CurrencyUnit);
                atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
-           }
+            }
        }
     }
     }
@@ -140,10 +140,11 @@ public class Payment extends Transaction{
              case 3 :
              case 4 :
              case 5 :
+                 
               screen.displayMessageLine("\nYour Voucher Number IS : ");
               stroom();
               userChoice = amounts[input];
-              break;
+               break;
              case CANCELED :
                  userChoice = CANCELED;
                  break;
