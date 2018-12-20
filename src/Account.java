@@ -91,7 +91,7 @@ public class Account {
    }
    
    public boolean getStatus(){
-       return Status;
+       return this.Status;
    }
    // end add
 
