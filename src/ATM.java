@@ -43,6 +43,7 @@ public class ATM {
       while (true) {
          // loop while user is not yet authenticated
          while (!userAuthenticated) {
+             screen.displayMessageLine("\n================================");  
             screen.displayMessageLine("\nWelcome!");       
             authenticateUser(); // authenticate user
          }
@@ -59,45 +60,44 @@ public class ATM {
         int i = 0;
         screen.displayMessage("\nPlease enter your account number: ");
         int accountNumber = 0;
-        int pin = 0;
-                
+        
         while(!keypad.hasNextInput()){
             keypad.getLine();
             screen.displayMessage("\nPlease re-enter your account number: ");
         }
         accountNumber = keypad.getInput();
-        
-        while (i < 3){
-            screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
-            try{
-                pin = keypad.getInput(); // input PIN
-            } catch(InputMismatchException e){
-                screen.displayMessage("\n Error: " + e);
-//                exit;
-            }
-
-            // set userAuthenticated to boolean value returned by database
-            userAuthenticated = bankDatabase.authenticateUser(accountNumber, pin);
-
-            // check whether authentication succeeded
-            if (bankDatabase.cekstatus(accountNumber) == true){
-                if (userAuthenticated) {
-                    currentAccountNumber = accountNumber; // save user's account #
-                    i = 4;
-                } else {
-                    screen.displayMessageLine("Invalid account number or PIN. Please try again.");
-                    i++;
+        userAuthenticated = bankDatabase.authenticateUser(accountNumber);
+        if (userAuthenticated){
+            while (i < 3){
+                Account Akun = bankDatabase.getAccount(accountNumber);
+                screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
+                
+                while(!keypad.hasNextInput()){
+                    keypad.getLine();
+                    screen.displayMessage("\nPlease re-enter your PIN : ");
                 }
-            } else {
-                i = 4;
-                screen.displayMessage("Akun di BLOKIR");
+                int pin = keypad.getInput(); // input PIN
+                
+                if (bankDatabase.cekstatus(accountNumber) == true){
+                    if (Akun.validatePIN(pin) == true){
+                        currentAccountNumber = accountNumber; // save user's account #
+                        i = 4;
+                    } else {
+                        i++;
+                        screen.displayMessage("Invalid pin number.\n");
+                    }
+                } else {
+                    i = 4;
+                    screen.displayMessage("Akun di BLOKIR");
+                    userAuthenticated = false;
+                }
+            } 
+            if (i == 3) {
+                bankDatabase.Blokir(accountNumber, false);
+                screen.displayMessage("AKUN ANDA DIBLOKIR KARENA MEMASUKAN KESALAHAN PIN SELAMA 3 KALI");
                 userAuthenticated = false;
             }
-        }
-        if (i == 3) {
-            bankDatabase.Blokir(accountNumber, false);
-            screen.displayMessage("AKUN ANDA DIBLOKIR KARENA MEMASUKAN KESALAHAN PIN SELAMA 3 KALI");
-        }
+        } else screen.displayMessage("Invalid account number. Please try again.\n");
     } 
 
    // display the main menu and perform transactions

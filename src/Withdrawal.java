@@ -43,7 +43,7 @@ public class Withdrawal extends Transaction {
                if(amount <= availableBalance){
                    cashDispenser.dispenseCash(amount,CurrencyUnit);
                    atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
-               } 
+               } else screen.displayMessage("\nYou don't have enough balance!");
            } else screen.displayMessage("\nYou don't have enough balance!");
        }
        // end add
@@ -88,9 +88,11 @@ public class Withdrawal extends Transaction {
                break;   
             case 6:
                 getScreen().displayMessage("\nInput how much you will withdrawal : ");
-               if(keypad.getInput() > 0){
-                    userChoice = keypad.getInput();
+                    input = keypad.getInput();
+                if( input > 0){
+                    userChoice = input;
                }else screen.displayMessage("\nThe Number Must be Postive");
+                
                 break;
             case CANCELED: // the user chose to cancel
                 

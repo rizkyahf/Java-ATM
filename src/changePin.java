@@ -21,18 +21,20 @@ public class changePin extends Transaction {
     public void execute() {
         BankDatabase bankDatabase = getBankDatabase();  
         Screen screen = getScreen();
+        Account Akun = bankDatabase.getAccount(getAccountNumber());
         
         screen.displayMessage("\nPlease enter your pin : ");
         int oldPin = keypad.getInput();
         
         
-        if(bankDatabase.authenticateUser(getAccountNumber(), oldPin)) {
-            screen.displayMessage("\nPlease enter your new pin : ");
-            int newPin = keypad.getInput(); // input new pin
-            bankDatabase.ChangePin(getAccountNumber(), newPin);
-            screen.displayMessage("\nYour pin has changed");
+        if(bankDatabase.authenticateUser(getAccountNumber())) {
+            if (Akun.validatePIN(oldPin)){
+                screen.displayMessage("\nPlease enter your new pin : ");
+                int newPin = keypad.getInput(); // input new pin
+                bankDatabase.ChangePin(getAccountNumber(), newPin);
+            }
         } 
-        else screen.displayMessage("\nPin yang anda masukkan salah....");
+        else screen.displayMessage("\nThe Pin you entered is incorrect....");
     }
     
 }

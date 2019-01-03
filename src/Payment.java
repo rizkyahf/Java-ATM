@@ -59,7 +59,7 @@ public class Payment extends Transaction{
            if (amount <= availableBalance){
                cashDispenser.dispenseCash(amount,CurrencyUnit);
                atmBankDatabase.getAccount(super.getAccountNumber()).credit(amount,CurrencyUnit);
-            }
+            }else screen.displayMessage("\nYou don't have enough balance!");
        }
     }
     }
@@ -88,11 +88,11 @@ public class Payment extends Transaction{
         int userChoice = 0;
          while (userChoice == 0){
              screen.displayMessage("\nDestination Menu: \n");
-         screen.displayMessageLine("1 - Voucher Listrik");
-         screen.displayMessageLine("2 - Donasi");
-         screen.displayMessageLine("3 - Isi aja");
-         screen.displayMessageLine("4 - Isi aja");
-         screen.displayMessageLine("5 - Isi aja");
+         screen.displayMessageLine("1 - electricity voucher");
+         screen.displayMessageLine("2 - Donation");
+         screen.displayMessageLine("3 - TBD");
+         screen.displayMessageLine("4 - TBD");
+         screen.displayMessageLine("5 - TBD");
          screen.displayMessageLine("6 - Cancel transaction");
          screen.displayMessage("\nChoose adestination: ");
          int input = keypad.getInput();
@@ -103,9 +103,9 @@ public class Payment extends Transaction{
              case 2 :
                DonasiKitabisa();
                       break;
-             case 3 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
-             case 4 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
-             case 5 :screen.displayMessageLine("\nDalam Perencanaan.."); break;
+             case 3 :screen.displayMessageLine("\nStill Planning.."); break;
+             case 4 :screen.displayMessageLine("\nStill Planning.."); break;
+             case 5 :screen.displayMessageLine("\nStill Planning.."); break;
                           
              case CANCELED:
                  screen.displayMessageLine("\nCanceling Transaction...");
@@ -141,9 +141,17 @@ public class Payment extends Transaction{
              case 4 :
              case 5 :
                  
-              screen.displayMessageLine("\nYour Voucher Number IS : ");
-              stroom();
-              userChoice = amounts[input];
+//              screen.displayMessageLine("\nYour Voucher Number IS : ");
+//              stroom();
+//              userChoice = amounts[input];
+                 double availableBalance;
+                 BankDatabase atmBankDatabase = super.getBankDatabase();
+                availableBalance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),amount);
+              if (input < availableBalance ){
+                  userChoice = amounts[input];
+                  screen.displayMessageLine("\nYour Voucher Number IS : ");
+                  stroom();
+                }
                break;
              case CANCELED :
                  userChoice = CANCELED;
@@ -215,10 +223,10 @@ public class Payment extends Transaction{
             jumlah = promptForTransferAmount();
             bankDatabase.debit(currentAccountNumber,jumlah,CurrencyUnit);
             bankDatabase.credit(getAccountNumber(), jumlah,CurrencyUnit);
-            screen.displayMessage("\nTransfer Berhasil, Terima Kasih");
+            screen.displayMessage("\nTransfer Successful, Thank You");
         }
      else {
-           screen.displayMessageLine("Transfer Gagal");   
+           screen.displayMessageLine("Transfer Failed");   
      }
      }
 }
