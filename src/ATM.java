@@ -87,13 +87,13 @@ public class ATM {
                     }
                 } else {
                     i = 4;
-                    screen.displayMessage("Akun di BLOKIR");
+                    screen.displayMessage("Your account is blocked!");
                     userAuthenticated = false;
                 }
             } 
             if (i == 3) {
                 bankDatabase.Blokir(accountNumber, false);
-                screen.displayMessage("AKUN ANDA DIBLOKIR KARENA MEMASUKAN KESALAHAN PIN SELAMA 3 KALI");
+                screen.displayMessage("YOUR ACCOUNT IS BLOCKED BECAUSE IT ENTERS THE MISTAKE OF THE PIN FOR 3 TIMES.");
                 userAuthenticated = false;
             }
         } else screen.displayMessage("Invalid account number. Please try again.\n");
@@ -144,7 +144,7 @@ public class ATM {
                 currentTransaction.execute();
                 break;
             case CHANGECURRENCY:
-                screen.displayMessageLine("\nMata uang sekarang : ");
+                screen.displayMessageLine("\nCurrent currency : ");
                 getCurrencyUnit(CurrencyUnit);
                 int pilihan = CurrencyMenu();
                 if (pilihan != 0) setCurrencyUnit(pilihan);
@@ -189,7 +189,7 @@ public class ATM {
    } 
    
    private int CurrencyMenu(){
-        screen.displayMessageLine("\nPilih untuk mengubah mata uang (0 untuk membatalkan");
+        screen.displayMessageLine("\nSelect to change currency (0 to cancel)");
         screen.displayMessage("\n1. US Dollar ");
         screen.displayMessage("\n2. Indonesia Rupiah \n");
         return keypad.getInput();
