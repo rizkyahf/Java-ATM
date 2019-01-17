@@ -64,24 +64,6 @@ public class Payment extends Transaction{
     }
     
     
-//    private int prompForDestinationAccount(){
-//        int userChoice = 0;
-//        Screen screen = getScreen();
-//        
-//        int input = keypad.getInput();
-//        switch(input){
-//            case 1 ://VoucherListrik();
-//                break;
-//            case 2 : displayMenuDonasi(); break;
-//        }
-//        if (input == CANCELED){
-//            screen.displayMessageLine("\nCanceling transaction...");
-//            return CANCELED;
-//        }else {
-//            return (int) input;
-//        }
-//      
-//        }
    private int DisplayMenuPayment(){
         Screen screen = getScreen();
         int userChoice = 0;
@@ -145,8 +127,8 @@ public class Payment extends Transaction{
              case 1 :
              case 2 :
              case 3 :
-//             case 4 :
-//             case 5 :
+             case 4 :
+             case 5 :
                  
 //              screen.displayMessageLine("\nYour Voucher Number IS : ");
 //              stroom();
