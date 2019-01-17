@@ -63,6 +63,7 @@ public class ATM {
         
         while(!keypad.hasNextInput()){
             keypad.getLine();
+            screen.displayMessageLine("\nInput is Invalid");
             screen.displayMessage("\nPlease re-enter your account number: ");
         }
         accountNumber = keypad.getInput();
@@ -74,6 +75,7 @@ public class ATM {
                 
                 while(!keypad.hasNextInput()){
                     keypad.getLine();
+                    screen.displayMessageLine("\nInput is Invalid");
                     screen.displayMessage("\nPlease re-enter your PIN : ");
                 }
                 int pin = keypad.getInput(); // input PIN
@@ -88,13 +90,13 @@ public class ATM {
                     }
                 } else {
                     i = 4;
-                    screen.displayMessage("Akun di BLOKIR");
+                    screen.displayMessage("Account suspended");
                     userAuthenticated = false;
                 }
             } 
             if (i == 3) {
                 bankDatabase.Blokir(accountNumber, false);
-                screen.displayMessage("AKUN ANDA DIBLOKIR KARENA MEMASUKAN KESALAHAN PIN SELAMA 3 KALI");
+                screen.displayMessage("3X WRONG PIN: YOUR ACCOUNT HAS BEEN BLOCKED");
                 userAuthenticated = false;
             }
         } else screen.displayMessage("Invalid account number. Please try again.\n");
@@ -145,10 +147,10 @@ public class ATM {
                 currentTransaction.execute();
                 break;
             case CHANGECURRENCY:
-                screen.displayMessageLine("\nMata uang sekarang : ");
+                screen.displayMessageLine("\nActive Currency Unit: ");
                 getCurrencyUnit(CurrencyUnit);
                 int pilihan = CurrencyMenu();
-                if (pilihan != 0) setCurrencyUnit(pilihan);
+                if (pilihan == 1 || pilihan == 2) setCurrencyUnit(pilihan);
                 else break; 
                 break;
             case ACTIVITY:
@@ -158,7 +160,7 @@ public class ATM {
             case CHANGEPIN:
                 currentTransaction = createTransaction(mainMenuSelection);
                 currentTransaction.execute();   // execute transaction
-                screen.displayMessageLine("\nPlease re login");
+                break;
             // end add
             case EXIT: // user chose to terminate session
                screen.displayMessageLine("\nExiting the system...");
@@ -190,9 +192,10 @@ public class ATM {
    } 
    
    private int CurrencyMenu(){
-        screen.displayMessageLine("\nPilih untuk mengubah mata uang (0 untuk membatalkan");
+        screen.displayMessageLine("\nChose Currency (0 to cancel)");
         screen.displayMessage("\n1. US Dollar ");
         screen.displayMessage("\n2. Indonesia Rupiah \n");
+        screen.displayMessage("Your Choice: ");
         return keypad.getInput();
    }
          

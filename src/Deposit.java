@@ -42,13 +42,23 @@ public class Deposit extends Transaction {
    // prompt user to enter a deposit amount in cents 
    private double promptForDepositAmount() {
       Screen screen = getScreen(); // get reference to screen
-
+      int input;
+      
       // display the prompt
       screen.displayMessage("\nPlease enter a deposit amount (or 0 to cancel): ");
-      int input = keypad.getInput(); // receive input of deposit amount
+      while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessageLine("\nInput is Invalid");
+            screen.displayMessage("Please re-enter a deposit amount (or 0 to cancel): ");
+        }
+            input = keypad.getInput();
+        if( input < 0){
+            screen.displayMessage("\nThe Number Must be Postive");
+       }
+//      int input = keypad.getInput(); // receive input of deposit amount
       
       // check whether the user canceled or entered a valid amount
-      if (input == CANCELED) {
+      if (input <= CANCELED ) {
         // myadd
         screen.displayMessageLine(
            "\nCanceling transaction...");

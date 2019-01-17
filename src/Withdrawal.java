@@ -88,10 +88,18 @@ public class Withdrawal extends Transaction {
                break;   
             case 6:
                 getScreen().displayMessage("\nInput how much you will withdrawal : ");
+                while(!keypad.hasNextInput()){
+                    keypad.getLine();
+                    screen.displayMessageLine("\nInput is Invalid");
+                    screen.displayMessage("Input how much you will withdrawal : ");
+                }
                     input = keypad.getInput();
-                if( input > 0){
-                    userChoice = input;
-               }else screen.displayMessage("\nThe Number Must be Postive");
+                if( input < 0){
+                    screen.displayMessage("\nThe Number Must be Postive");
+                    
+               }else if(input % 20 != 0){
+                   screen.displayMessage("\nThe Number Must be Multiple of 20");
+               }else userChoice = input; 
                 
                 break;
             case CANCELED: // the user chose to cancel
@@ -122,7 +130,6 @@ public class Withdrawal extends Transaction {
       while (userChoice == 0) {
          // display the withdrawal menu
          screen.displayMessageLine("\nWithdrawal Menu:");
-         screen.displayMessageLine("1 - Rp20000");
          screen.displayMessageLine("2 - Rp50000");
          screen.displayMessageLine("3 - Rp100000");
          screen.displayMessageLine("4 - Rp150000");
@@ -134,23 +141,18 @@ public class Withdrawal extends Transaction {
 
          // determine how to proceed based on the input value
          switch (input) {
-            case 1: 
-               userChoice = amounts[input]; // save user's choice
-               break; 
             case 2: 
-               userChoice = amounts[input]; // save user's choice
-               break; 
             case 3: 
-               userChoice = amounts[input]; // save user's choice
-               break; 
             case 4:
-               userChoice = amounts[input]; // save user's choice
-               break;  
             case 5:
+                screen.displayMessageLine(
+                  "\nYour cash has been dispensed. Please take your cash now.");
                userChoice = amounts[input]; // save user's choice
                break;       
             case CANCELED: // the user chose to cancel
-               userChoice = amounts[CANCELED]; // save user's choice
+               screen.displayMessageLine(
+                  "\nCanceling transaction...");
+               userChoice = CANCELED; // save user's choice
                break;
             default: // the user did not enter a value from 1-6
                screen.displayMessageLine(

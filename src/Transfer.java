@@ -63,7 +63,16 @@ public class Transfer extends Transaction {
       Screen screen = getScreen(); // get reference to screen
 
       screen.displayMessage("\nPlease enter destination account number (or 0 to cancel): ");
-      int input = keypad.getInput(); // receive input of deposit amount
+      int input;
+      
+      while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessageLine("\nInput is Invalid");
+            screen.displayMessage("Please re-enter destination account number (or 0 to cancel): ");
+        }
+      
+      
+      input = keypad.getInput(); // receive input of deposit amount
       
       if (input == CANCELED) {
         screen.displayMessageLine(
@@ -79,9 +88,21 @@ public class Transfer extends Transaction {
        Screen screen = getScreen(); // get reference to screen
 
       screen.displayMessage("\nPlease enter amount to transfer (or 0 to cancel): ");
-      int input = keypad.getInput(); // receive input of deposit amount
+      int input;
       
-      if (input == CANCELED) {
+      while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessageLine("\nInput is Invalid");
+            screen.displayMessage("Please re-enter amount to transfer (or 0 to cancel): ");
+        }
+      
+      input = keypad.getInput(); // receive input of deposit amount
+      if( input < 0){
+        screen.displayMessage("\nThe Number Must be Postive");
+
+      }
+      
+      if (input <= CANCELED) {
         screen.displayMessageLine(
            "\nCanceling transaction...");
          return CANCELED;

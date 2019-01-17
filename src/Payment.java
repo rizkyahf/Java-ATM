@@ -50,7 +50,6 @@ public class Payment extends Transaction{
 //       int userChoice = 0;
         Screen screen = getScreen();
 
-//       DonasiKitabisa();
        amount = DisplayMenuPayment();
        if  ( amount != 6){
        if (cashDispenser.isSufficientCashAvailable(amount,CurrencyUnit)){
@@ -91,10 +90,10 @@ public class Payment extends Transaction{
          screen.displayMessageLine("1 - Electricity Voucher");
          screen.displayMessageLine("2 - Donation");
          screen.displayMessageLine("3 - Buy Cellphone Credit");
-         screen.displayMessageLine("4 - TBD");
-         screen.displayMessageLine("5 - TBD");
+//         screen.displayMessageLine("4 - TBD");
+//         screen.displayMessageLine("5 - TBD");
          screen.displayMessageLine("6 - Cancel transaction");
-         screen.displayMessage("\nChoose adestination: ");
+         screen.displayMessage("\nChoose destination: ");
          int input = keypad.getInput();
          switch(input){
              case 1 : 
@@ -105,8 +104,8 @@ public class Payment extends Transaction{
                       break;
              case 3 :beliPulsa(); 
                    break;
-             case 4 :screen.displayMessageLine("\nStill Planning.."); break;
-             case 5 :screen.displayMessageLine("\nStill Planning.."); break;
+//             case 4 :screen.displayMessageLine("\nStill Planning.."); break;
+//             case 5 :screen.displayMessageLine("\nStill Planning.."); break;
                           
              case CANCELED:
                  screen.displayMessageLine("\nCanceling Transaction...");
@@ -133,14 +132,21 @@ public class Payment extends Transaction{
          screen.displayMessageLine("6 - Cancel transaction");
          screen.displayMessage("\nChoose a Voucher amount: ");
          
-         int input = keypad.getInput();
+         int input;
+         
+        while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessageLine("\nInput is Invalid");
+            screen.displayMessage("Please re-enter a Voucher amount: ");
+        }
+         input = keypad.getInput();
          
          switch(input){
              case 1 :
              case 2 :
              case 3 :
-             case 4 :
-             case 5 :
+//             case 4 :
+//             case 5 :
                  
 //              screen.displayMessageLine("\nYour Voucher Number IS : ");
 //              stroom();
@@ -172,39 +178,24 @@ public class Payment extends Transaction{
          }
          System.out.print("");
      }
-//     private int displayMenuDonasi(){
-//      Screen screen = getScreen();
-//      screen.displayMessageLine("\nPilih Donasi:");
-//      screen.displayMessageLine("1 - kitabisa.com");
-//      screen.displayMessageLine("6 - Exit\n");
-//      screen.displayMessage("Enter a choice: ");
-//      return keypad.getInput(); // return user's selection
-//     }
-//      private int promptForTujuanDonasi() {
-//      int userChoice = 0; // local variable to store return value
-//      Screen screen = getScreen(); // get reference to screen
-//
-//      int input = keypad.getInput(); // receive input of deposit amount
-//      switch(input){
-//          case 1: DonasiKitabisa(); break;
-////          case 2: ;break
-//      }
-//      if (input == CANCELED) {
-//        screen.displayMessageLine(
-//           "\nCanceling transaction...");
-//         return CANCELED;
-//      }
-//      else {
-//         return (int) input; 
-//      }
-//   }
      private double promptForTransferAmount(){
         Screen screen = getScreen();
         
         // input account number
-        screen.displayMessage("\nMasukkan jumlah yang akan didonasikan" + 
-         " (dalam CENTS) : ");
-        int input = keypad.getInput();
+        screen.displayMessage("\nInput amount to donate" + 
+         " (in CENTS) : ");
+        int input;
+        while(!keypad.hasNextInput()){
+            keypad.getLine();
+            screen.displayMessageLine("\nInput is Invalid");
+            screen.displayMessage("Please re-enter amount to donate : ");
+        }
+      
+      input = keypad.getInput(); // receive input of deposit amount
+      if( input < 0){
+        screen.displayMessage("\nThe Number Must be Postive");
+
+      }
         return (double) input / 100;
        // receive input of deposit amount
 //        return (double) input / 100; // return dollar amount
@@ -249,7 +240,7 @@ public class Payment extends Transaction{
                 // update the account involved to reflect the withdrawal  
                 bankDatabase.credit(getAccountNumber(), amount, CurrencyUnit);  
                 // instructs user to take cash  
-                screen.displayMessageLine("\nBerhasil mengisi pulsa sejumlah $."+amount+" ke no "+noHp+"");  
+                screen.displayMessageLine("\nSuccess buy cellphone credit $."+amount+" to "+noHp+"");  
             }  // end if  
             else{  
               // not enough money available in user's account  
