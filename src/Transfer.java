@@ -45,6 +45,7 @@ public class Transfer extends Transaction {
 //                       cashDispenser.dispenseCash((int)amount);
                        bankDatabase.getAccount(sourceNo).credit(amount,CurrencyUnit);
                        bankDatabase.getAccount(destinationNo).debit(amount,CurrencyUnit);
+                       screen.displayMessage("\n Transfer success from " + super.getAccountNumber() + " to " + destinationNo + "\n");
                    }
                    else {
                        screen.displayMessageLine("\nInsufficent Funds...");
