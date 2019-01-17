@@ -62,9 +62,17 @@ public class TopUp extends Transaction {
          screen.displayMessageLine("6 - Bukalapak");
          screen.displayMessageLine("7 - Gopay");
          screen.displayMessageLine("0 - Cancel transaction");
-         screen.displayMessage("\nChoose adestination: ");
+         screen.displayMessage("\nChoose destination: ");
 
-      int input = keypad.getInput(); // receive input of deposit amount
+      int input;
+
+    while(!keypad.hasNextInput()){
+        keypad.getLine();
+        screen.displayMessageLine("\nInput is Invalid");
+        screen.displayMessage("Please re-enter destination: ");
+    }
+
+      input = keypad.getInput(); // receive input of deposit amount
       switch(input){
           case 1: topupETol(); break;
           case 2: topupDana();break;// akun dana
@@ -73,22 +81,29 @@ public class TopUp extends Transaction {
           case 5: topupTokped(); break;
           case 6: topupBuklap(); break;
           case 7: topupGopay(); break;
-      }
-      if (input == CANCELED) {
+          case CANCELED:
         screen.displayMessageLine(
            "\nCanceling transaction...");
-         return CANCELED;
+//         return CANCELED;
+        break;
       }
-      else {
+
          return (int) input; 
-      }
    }
    
    private double promptForAmount(){
        Screen screen = getScreen(); // get reference to screen
 
       screen.displayMessage("\nPlease enter amount to transfer (or 0 to cancel): ");
-      int input = keypad.getInput(); // receive input of deposit amount
+      int input;
+
+    while(!keypad.hasNextInput()){
+        keypad.getLine();
+        screen.displayMessageLine("\nInput is Invalid");
+        screen.displayMessage("Please re-enter amount to transfer (or 0 to cancel): ");
+    }
+
+      input = keypad.getInput(); // receive input of deposit amount
       
       if (input == CANCELED) {
         screen.displayMessageLine(
@@ -106,8 +121,10 @@ public class TopUp extends Transaction {
         amount = promptForAmount();
         int agree;
         double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
-        
-        if(amount <= Balance){
+        if(amount == CANCELED){
+            screen.displayMessageLine("\nCanceling transaction...");
+        }
+        else if(amount <= Balance){
             screen.displayMessage("\n Input Tokopedia account with code 3902 + acc number: ");
 
             int Receiver_Account = keypad.getInput();
@@ -183,7 +200,10 @@ public class TopUp extends Transaction {
         int agree;
         double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
-        if(amount <= Balance){
+        if(amount == CANCELED){
+            screen.displayMessageLine("\nCanceling transaction...");
+        }
+        else if(amount <= Balance){
             screen.displayMessage("\n Input Shopee account with code 4041 + acc number: ");
 
             int Receiver_Account = keypad.getInput();
@@ -208,7 +228,10 @@ public class TopUp extends Transaction {
         int agree;
         double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
-        if(amount <= Balance){
+        if(amount == CANCELED){
+            screen.displayMessageLine("\nCanceling transaction...");
+        }
+        else if(amount <= Balance){
             screen.displayMessage("\n Input OVO account with code 3340 + acc number: ");
 
             int Receiver_Account = keypad.getInput();
@@ -234,7 +257,10 @@ public class TopUp extends Transaction {
         int agree;
         double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
-        if(amount <= Balance){
+        if(amount == CANCELED){
+            screen.displayMessageLine("\nCanceling transaction...");
+        }
+        else if(amount <= Balance){
             screen.displayMessage("\n Input Dana account with code 2529 + acc number: ");
 
             int Receiver_Account = keypad.getInput();
@@ -258,7 +284,10 @@ public class TopUp extends Transaction {
         int agree;
         double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
         
-        if(amount <= Balance){
+        if(amount == CANCELED){
+            screen.displayMessageLine("\nCanceling transaction...");
+        }
+        else if(amount <= Balance){
             screen.displayMessage("\n Input Bukalapak account with code 1104 + acc number: ");
 
             int Receiver_Account = keypad.getInput();
@@ -288,7 +317,10 @@ public class TopUp extends Transaction {
             amount = promptForAmount();
             int agree;
             double Balance = atmBankDatabase.getAvailableBalance(super.getAccountNumber(),CurrencyUnit);
-            if(amount <= Balance){
+            if(amount == CANCELED){
+                screen.displayMessageLine("\nCanceling transaction...");
+            }
+            else if(amount <= Balance){
                 screen.displayMessage(" Ketik 1 untuk menyetujui transaksi \n Masukan anda : ");
                 agree = keypad.getInput();
                 if (agree == 1){
